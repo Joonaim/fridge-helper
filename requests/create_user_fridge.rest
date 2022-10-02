@@ -1,0 +1,7 @@
+POST http://localhost:3003/api/userfridges
+Content-Type: application/json
+
+{
+    "userId": 2,
+    "fridgeId": 1
+}
