@@ -18,13 +18,14 @@ Product.init(
     purchaseDate: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Date.now()
+      defaultValue: new Date()
     },
     expiryDate: {
       type: DataTypes.DATE
     },
     amount: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       defaultValue: 1
     }
   },

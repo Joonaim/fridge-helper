@@ -15,14 +15,15 @@ module.exports = {
       purchase_date: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Date.now()
+        defaultValue: new Date()
       },
       expiry_date: {
         type: DataTypes.DATE
       },
       amount: {
         type: DataTypes.INTEGER,
-        defaultValue: 1
+        defaultValue: 1,
+        allowNull: false
       }
     })
     await queryInterface.createTable('fridges', {
