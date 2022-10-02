@@ -12,7 +12,7 @@ Product.init(
       autoIncrement: true
     },
     name: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false
     },
     purchaseDate: {
