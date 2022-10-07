@@ -1,5 +1,28 @@
 # Fridge helper
 
+## Fly.io
+
+start:
+<https://fly.io/docs/hands-on/install-flyctl/>
+
+Backend ``.env`` DATABASE_URL = fly.io connect-string:
+`postgres://postgres:<password>@localhost:5432/postgres`
+
+tunnel (needs to be running when communicating between local app and postgres):
+`flyctl proxy 5432 -a <app-name>-db`
+see more: <https://fly.io/docs/reference/postgres/#connecting-to-postgres-from-outside-fly>
+
+directly connect to db:
+`flyctl postgres connect -a <app_name-db>`
+
+clear postgres:
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
+revert all migrations/seeds:
+await seeder.down({ to: 0 })
+await migrator.down({ to: 0 })
+
 ## Get started
 
 -   Create file ``.env`` in the folder ``backend`` following the format:
@@ -10,7 +33,7 @@
         SESSION_SECRET=<session secret here>
 
 
-    ***NOTE*** PORT may be any desired port for the backend (if not set default is 3001). FRONTEND_URL is usually ``http://localhost:3000`` during development (depending on react port). DATABASE_URL is of format ``postgres://db_user:db_pass@db_host_address:db_port/db_name``. SESSION_SECRET may be anything for development purposes.
+    ***NOTE*** PORT may be any desired port for the backend (if not set default is 3001). FRONTEND_URL is usually ``http://localhost:3000`` during development (depending on react port). DATABASE_URL is of format ``postgres://db_user:db_pass@db_host_address:db_port/db_name``, refer to upper section ``Fly.io``. SESSION_SECRET may be anything for development purposes.
 
 -   Create file ``.env`` in the folder ``frontend`` with the format:
 

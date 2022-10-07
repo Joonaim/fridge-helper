@@ -7,7 +7,9 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "fly": "flyctl proxy 5432 -a fridge-helper-backend-db",
-    "migration:down": "node utils/rollback.js"
+    "migration:down": "node utils/rollbackMigration.js",
+    "git": "git add . && git commit -m",
+    "postgit": "git push --all"
   },
   "author": "Juho Paakkanen",
   "license": "ISC",

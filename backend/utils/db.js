@@ -12,6 +12,16 @@ const migrationConf = {
   context: sequelize.getQueryInterface(),
   logger: console
 }
+
+var seedConfig = {
+  storage: new SequelizeStorage({ sequelize, tableName: 'seeds' }),
+  migrations: {
+    glob: 'seeders/*.js'
+  },
+  context: sequelize.getQueryInterface(),
+  logger: console
+}
+
 const runMigrations = async () => {
   const migrator = new Umzug(migrationConf)
   const migrations = await migrator.up()
@@ -19,8 +29,19 @@ const runMigrations = async () => {
     files: migrations.map((mig) => mig.name)
   })
 }
+
+const runSeeds = async () => {
+  const seeder = new Umzug(seedConfig)
+  const seeds = await seeder.up()
+  console.log('Seeds set up', {
+    files: seeds.map((seed) => seed.name)
+  })
+}
+
 const rollbackMigration = async () => {
   await sequelize.authenticate()
+  const seeder = new Umzug(seedConfig)
+  await seeder.down()
   const migrator = new Umzug(migrationConf)
   await migrator.down()
 }
@@ -29,6 +50,7 @@ const connectToDatabase = async () => {
   try {
     await sequelize.authenticate()
     await runMigrations()
+    await runSeeds()
     console.log('database connected')
   } catch (err) {
     console.log('connecting database failed')
@@ -39,5 +61,9 @@ const connectToDatabase = async () => {
   return null
 }
 
-module.exports = { connectToDatabase, sequelize, rollbackMigration }
+module.exports = {
+  connectToDatabase,
+  sequelize,
+  rollbackMigration
+}
 
