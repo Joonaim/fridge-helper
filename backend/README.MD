@@ -1,12 +1,7 @@
 # Fridge helper - backend
 
-directly connect to db:
-`flyctl postgres connect -a <app_name-db>`
+Directly connect to db: `flyctl postgres connect -a <app_name-db>`
 
-clear postgres:
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
+Revert latest migration & seed: `npm run migration:down`
 
-or revert all migrations/seeds:
-await seeder.down({ to: 0 })
-await migrator.down({ to: 0 })
+Revert all migrations & seeds (clear postgres): `npm run migrations:down`

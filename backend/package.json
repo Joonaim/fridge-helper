@@ -8,6 +8,7 @@
     "dev": "nodemon index.js",
     "fly": "flyctl proxy 5432 -a fridge-helper-backend-db",
     "migration:down": "node utils/rollbackMigration.js",
+    "migrations:down": "node utils/rollbackMigrations.js",
     "git": "git add . && git commit -m",
     "postgit": "git push --all"
   },

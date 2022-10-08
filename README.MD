@@ -2,14 +2,14 @@
 
 ## Fly.io
 
-Start and create app&db:<br>
+Create app&db:<br>
 <https://fly.io/docs/hands-on/install-flyctl/>
 
 Backend `.env` DATABASE_URL = fly.io connect-string:<br>
-`postgres://postgres:<password>@localhost:5432/postgres` (default)
+`postgres://postgres:<password>@localhost:5432/postgres` (default form)
 
 Tunnel (needs to be running for development when communicating between local app and postgres):<br>
-`flyctl proxy 5432 -a <app-name>-db`<br>
+`flyctl proxy 5432 -a <app-name>-db`<br> (default form)
 see more: <https://fly.io/docs/reference/postgres/#connecting-to-postgres-from-outside-fly>
 
 ## Get started

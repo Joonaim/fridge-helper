@@ -38,12 +38,12 @@ const runSeeds = async () => {
   })
 }
 
-const rollbackMigration = async () => {
+const rollbackMigration = async (to = undefined) => {
   await sequelize.authenticate()
   const seeder = new Umzug(seedConfig)
-  await seeder.down()
+  await seeder.down({ to })
   const migrator = new Umzug(migrationConf)
-  await migrator.down()
+  await migrator.down({ to })
 }
 
 const connectToDatabase = async () => {
@@ -66,4 +66,3 @@ module.exports = {
   sequelize,
   rollbackMigration
 }
-
