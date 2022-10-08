@@ -1,6 +1,13 @@
+const bcrypt = require('bcrypt')
+
+//for development&test purposes, get rid of/move to .env later
+const password = 'topsecret'
+
+const hash = bcrypt.hashSync(password, 10)
+
 const seedUsers = [
-  { username: 'alice@gmail.com', password: 'topsecret' },
-  { username: 'bob@gmail.com', password: 'topsecret' }
+  { username: 'alice@test.com', password: hash },
+  { username: 'bob@test.com', password: hash }
 ]
 
 module.exports = {
@@ -11,4 +18,3 @@ module.exports = {
     await queryInterface.bulkDelete('users', null, {})
   }
 }
-
