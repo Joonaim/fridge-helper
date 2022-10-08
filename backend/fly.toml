@@ -1,4 +1,4 @@
-# fly.toml file generated for fridge-helper-backend on 2022-10-02T11:43:51+03:00
+# fly.toml file generated for fridge-helper-backend on 2022-10-08T10:47:37+03:00
 
 app = "fridge-helper-backend"
 kill_signal = "SIGINT"
