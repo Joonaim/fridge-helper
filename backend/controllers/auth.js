@@ -71,7 +71,9 @@ const register = async (req, res) => {
           id: user.id,
           email: user.username
         }
-        res.json({ authenticated: true, email: user.username }).send()
+        res
+          .json({ authenticated: true, email: user.username, id: user.id })
+          .send()
       } else {
         res
           .json({
