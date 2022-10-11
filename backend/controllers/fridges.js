@@ -12,6 +12,16 @@ router.get('/', async (req, res) => {
   res.json(fridges)
 })
 
+router.get('/:id', async (req, res) => {
+  const fridge = await Fridge.findByPk(req.params.id, {
+    include: {
+      model: Product,
+      attributes: { exclude: ['fridgeId'] }
+    }
+  })
+  res.json(fridge)
+})
+
 router.post('/', async (req, res) => {
   const fridge = await Fridge.create({ ...req.body })
   await UserFridge.create({
@@ -23,4 +33,3 @@ router.post('/', async (req, res) => {
 })
 
 module.exports = router
-
