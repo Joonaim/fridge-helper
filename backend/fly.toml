@@ -1,6 +1,6 @@
-# fly.toml file generated for fridge-helper-backend on 2022-10-08T10:47:37+03:00
+# fly.toml file generated for fridge-helper-app on 2022-10-12T16:22:12+03:00
 
-app = "fridge-helper-backend"
+app = "fridge-helper-app"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []

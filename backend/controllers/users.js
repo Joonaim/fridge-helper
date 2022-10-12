@@ -4,17 +4,25 @@ const { User, Fridge, Product } = require('../models')
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
-    include: {
-      model: Fridge,
-      as: 'userFridges',
-      attributes: { exclude: ['userId'] },
-      through: { attributes: ['admin'] }
-    }
+    include: [
+      {
+        model: Fridge,
+        include: [
+          {
+            model: Product,
+            attributes: { exclude: ['fridgeId'] }
+          }
+        ],
+        as: 'userFridges',
+        attributes: { exclude: ['userId'] },
+        through: { attributes: ['admin'] }
+      }
+    ],
+    attributes: { exclude: ['username', 'password'] }
   })
   res.json(users)
 })
 
-//this is used for getting user's Fridges and their contest
 router.get('/:id', async (req, res) => {
   if (req.session && req.session.user) {
     const user = await User.findByPk(req.session.user.id, {
@@ -23,24 +31,21 @@ router.get('/:id', async (req, res) => {
           model: Fridge,
           include: [
             {
-              model: Product
+              model: Product,
+              attributes: { exclude: ['fridgeId'] }
             }
           ],
           as: 'userFridges',
           attributes: { exclude: ['userId'] },
           through: { attributes: ['admin'] }
         }
-      ]
+      ],
+      attributes: { exclude: ['username', 'password'] }
     })
     res.json(user)
   } else {
     res.status(401).send()
   }
-})
-
-router.post('/', async (req, res) => {
-  const user = await User.create(req.body)
-  res.json(user)
 })
 
 module.exports = router
