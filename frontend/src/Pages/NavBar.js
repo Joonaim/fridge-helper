@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../Components/UserContext";
 import { Button } from "@mui/material";
 
@@ -36,7 +36,7 @@ export default function NavBar() {
 
     return (
         <>
-            <div>NavBar <Button variant="outlined" onClick={() => logout()}>Logout</Button></div>
+            <div>Dummy NavBar <Button component={Link} to={'/household'} variant="outlined">Household</Button><Button component={Link} to={'/shopping'} variant="outlined">Shopping List</Button><Button component={Link} to={'/waste'} variant="outlined">Waste Food</Button><Button component={Link} to={'/settings'} variant="outlined">Settings</Button><Button variant="outlined" onClick={() => logout()}>Logout</Button></div>
         </>
         
     )

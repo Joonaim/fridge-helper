@@ -16,22 +16,26 @@ router.get('/', async (req, res) => {
 
 //this is used for getting user's Fridges and their contest
 router.get('/:id', async (req, res) => {
-  const user = await User.findByPk(req.params.id, {
-    include: [
-      {
-        model: Fridge,
-        include: [
-          {
-            model: Product
-          }
-        ],
-        as: 'userFridges',
-        attributes: { exclude: ['userId'] },
-        through: { attributes: ['admin'] }
-      }
-    ]
-  })
-  res.json(user)
+  if (req.session && req.session.user) {
+    const user = await User.findByPk(req.session.user.id, {
+      include: [
+        {
+          model: Fridge,
+          include: [
+            {
+              model: Product
+            }
+          ],
+          as: 'userFridges',
+          attributes: { exclude: ['userId'] },
+          through: { attributes: ['admin'] }
+        }
+      ]
+    })
+    res.json(user)
+  } else {
+    res.status(401).send()
+  }
 })
 
 router.post('/', async (req, res) => {

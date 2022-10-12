@@ -86,7 +86,7 @@ const register = async (req, res) => {
 }
 
 const logout = async (req, res) => {
-  if (req.session) {
+  if (req.session && req.session.user) {
     req.session.destroy((err) => {
       if (err) {
         console.log('Error while trying to logout: ' + err)

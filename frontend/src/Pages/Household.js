@@ -11,7 +11,7 @@ const Household = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(url);
+        const res = await axios.get(url, { withCredentials: true });
         setUserFridges(res.data.userFridges);
       } catch (err) {
         console.log(err);
