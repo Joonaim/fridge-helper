@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+require('express-async-errors')
 const app = express()
 const session = require('express-session')
 const pgSession = require('connect-pg-simple')(session)
@@ -15,30 +16,33 @@ const userFridgeRouter = require('./controllers/userfridges')
 const authRouter = require('./routers/auth_router')
 const sequelize = require('sequelize')
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true,
-}))
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+  })
+)
 app.use(express.json())
-app.use(session({
-  store: new pgSession({
-    pool : sequelize.pool,
-    tableName : 'user_sessions',
-    createTableIfMissing: true,
-  }),
-  secret: process.env.SESSION_SECRET,
-  credentials: true,
-  name: 'sid',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: 'auto', // !! SHOULD BE 'true' IN PRODUCTION
-    httpOnly: true,
-    expries: 1000 * 60 * 60 * 24 * 7, // 1000 ms * 60 * 60 * 24 * 7 = 1 week
-    sameSite: 'lax', // !! SHOULD BE 'none' IN PRODUCTION
-  }
-
-}))
+app.use(
+  session({
+    store: new pgSession({
+      pool: sequelize.pool,
+      tableName: 'user_sessions',
+      createTableIfMissing: true
+    }),
+    secret: process.env.SESSION_SECRET,
+    credentials: true,
+    name: 'sid',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: 'auto', // !! SHOULD BE 'true' IN PRODUCTION
+      httpOnly: true,
+      expries: 1000 * 60 * 60 * 24 * 7, // 1000 ms * 60 * 60 * 24 * 7 = 1 week
+      sameSite: 'lax' // !! SHOULD BE 'none' IN PRODUCTION
+    }
+  })
+)
 app.use(middleware.requestLogger)
 
 app.use('/api/fridges', fridgeRouter)
@@ -47,10 +51,13 @@ app.use('/api/users', userRouter)
 app.use('/api/userfridges', userFridgeRouter)
 app.use('/auth', authRouter)
 
-app.get('*', function(req, res) {
+app.use(middleware.unknownEndpoint)
+app.use(middleware.errorHandler)
+
+app.get('*', function (req, res) {
   res.status(404).send()
 })
-app.post('*', function(req, res) {
+app.post('*', function (req, res) {
   res.status(404).send()
 })
 
@@ -62,4 +69,3 @@ const start = async () => {
 }
 
 start()
-
