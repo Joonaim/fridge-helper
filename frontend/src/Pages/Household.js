@@ -6,7 +6,7 @@ import axios from "axios";
 const Household = () => {
   const [userFridges, setUserFridges] = useState();
   const { user } = useUserContext();
-  const url = `${process.env.REACT_APP_BACKEND_URL}/api/users/${user.id}`;
+  const url = `/api/users/${user.id}`;
 
   useEffect(() => {
     async function fetchData() {

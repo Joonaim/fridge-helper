@@ -44,6 +44,7 @@ app.use(
   })
 )
 app.use(middleware.requestLogger)
+app.use(express.static('build'))
 
 app.use('/api/fridges', fridgeRouter)
 app.use('/api/products', productRouter)
