@@ -29,8 +29,12 @@ see more: <https://fly.io/docs/reference/postgres/#connecting-to-postgres-from-o
 
   **_NOTE_** REACT_APP_BACKEND_URL is `http://localhost:3003` or `http://localhost:PORT` where `PORT` is the port defined in backend `.env`
 
+  **_NOTE_** You need to also change port for proxy in package.json(frontend) if you dont use 3003
+
 - Install backend node dependencies by running `npm install` in the folder `backend`
 - Start backend development environment running `npm run dev` in the folder `backend`
 - Install frontend node dependencies by running `npm install` in the folder `frontend`
 - Start frontend development environment running `npm start` in the folder `frontend`
 - **DONE**
+
+Test users with some test data: alice@test.com & bob@test.com, password for both: topsecret

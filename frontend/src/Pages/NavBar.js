@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ClearIcon from '@mui/icons-material/Clear';
 
 const navigationLinks = [
-  { name: "My Fridge", to: "/fridges"},
+  { name: "My Household", to: "/household"},
   { name: "Shopping List", to: "/shopping"},
   { name: "Food Waste", to: "/waste"},
   { name: "Settings", to: "/settings"},
@@ -27,7 +27,7 @@ function MenuNavigationButton({item, windowSize, closeFunction}) {
     const buttonHeight = ((windowSize.innerHeight * 0.4) / 6) > 30 ? ((windowSize.innerHeight * 0.4) / 6) : 30
     
     return (
-        <IconButton component={Link} to={item.to} onClick={closeFunction}  variant="text" disableRipple color="inherit" sx={{ lineHeight: '20px', fontSize: '20px', fontWeight: weight, textTransform: 'uppercase', "&:hover": { color: '#626E60' }, "&:active": { color: '#3C3C3C' } }} style={{borderRadius: 0, height: buttonHeight}}>
+        <IconButton component={Link} to={item.to} onClick={closeFunction} variant="text" disableRipple color="inherit" sx={{ lineHeight: '20px', fontSize: '20px', fontWeight: weight, textTransform: 'uppercase', "&:hover": { color: '#626E60' }, "&:active": { color: '#3C3C3C' } }} style={{borderRadius: 0, height: buttonHeight}}>
             {item.name}
         </IconButton>
     )
@@ -60,7 +60,7 @@ export default function NavBar() {
 
     function logout() {
 
-        fetch(process.env.REACT_APP_BACKEND_URL + "/auth/logout", {
+        fetch("/auth/logout", {
             method: 'DELETE',
             credentials: 'include'
         }).catch(err => {
@@ -85,7 +85,7 @@ export default function NavBar() {
     }
 
     return (
-        <AppBar position="sticky" elevation={0}  color={'transparent'} style={{ margin: 0 }}>
+        <AppBar position="sticky" elevation={0} color={'transparent'} style={{ margin: 0 }}>
 
             <Container maxWidth="false">
                 <Toolbar disableGutters sx={{ justifyContent: "right" }}>
@@ -118,7 +118,7 @@ export default function NavBar() {
                     <MenuNavigationButton key={item.name} item={item} windowSize={windowSize} closeFunction={() => setOpen(false)} />
                 ))}
 
-                <IconButton variant="text" color="inherit" disableRipple onClick={() => logout()} sx={{ lineHeight: '20px', fontSize: '20px', fontWeight: 600, textTransform: 'uppercase', marginBottom: '15px', "&:hover": { color: '#626E60' }, "&:active": { color: '#3C3C3C' }  }} style={{borderRadius: 0,  height: ((windowSize.innerHeight * 0.4) / 6) > 30 ? ((windowSize.innerHeight * 0.4) / 6) : 30 }}>
+                <IconButton variant="text" color="inherit" disableRipple onClick={() => logout()} sx={{ lineHeight: '20px', fontSize: '20px', fontWeight: 600, textTransform: 'uppercase', marginBottom: '15px', "&:hover": { color: '#626E60' }, "&:active": { color: '#3C3C3C' } }} style={{borderRadius: 0, height: ((windowSize.innerHeight * 0.4) / 6) > 30 ? ((windowSize.innerHeight * 0.4) / 6) : 30 }}>
                     Sign Out
                 </IconButton>
 
