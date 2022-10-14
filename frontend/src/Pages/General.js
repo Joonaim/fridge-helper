@@ -1,5 +1,16 @@
+import { Link } from "react-router-dom";
+
+import BackButton from "../Components/BackButton";
+
 const General = () => {
-  return <div>General</div>;
+  return (
+    <>
+      <Link to="/settings">
+        <BackButton />
+      </Link>
+      <h2>General</h2>
+    </>
+  );
 };
 
 export default General;
