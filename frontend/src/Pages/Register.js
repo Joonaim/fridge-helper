@@ -92,7 +92,7 @@ export default function Register({registerOpen, handleCloseRegister, changeToLog
                     setAlertMsg('Registration succeeded!')
                     setAlertOpen(true)
                     setAlertSvrt('success')
-                    navigate('/household')
+                    navigate('/fridge')
                 }
             })
         },

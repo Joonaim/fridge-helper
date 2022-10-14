@@ -3,7 +3,7 @@ import { useUserContext } from "../Components/UserContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const Household = () => {
+const Fridges = () => {
   const [userFridges, setUserFridges] = useState();
   const { user } = useUserContext();
   const url = `${process.env.REACT_APP_BACKEND_URL}/api/users/${user.id}`;
@@ -22,7 +22,7 @@ const Household = () => {
 
   return (
     <div>
-      <h2>Household Page</h2>
+      <h2>Fridges Page</h2>
       <h3>Fridges</h3>
       {userFridges?.map((fridge) => (
         <ul key={fridge.id}>
@@ -36,4 +36,4 @@ const Household = () => {
   );
 };
 
-export default Household;
+export default Fridges;

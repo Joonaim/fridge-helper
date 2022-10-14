@@ -88,7 +88,7 @@ export default function Login({loginOpen, handleCloseLogin, changeToRegister}) {
                     setAlertMsg('Sucessfully signed in!')
                     setAlertOpen(true)
                     setAlertSvrt('success')
-                    navigate('/household')
+                    navigate('/fridge')
                 }
             })
         },

@@ -9,7 +9,7 @@ const OpenRoutes = () => {
         user.authenticated === null
         ? <LoadingPage />
         : user.authenticated === true 
-            ? <Navigate to='/household' replace/>
+            ? <Navigate to='/fridges' replace/>
             : 
             <>
                 {

@@ -1,10 +1,10 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedRoutes from './Components/ProtectedRoutes';
 import OpenRoutes from './Components/OpenRoutes';
-import Household from './Pages/Household';
+import Fridges from './Pages/Fridges';
 import Landing from './Pages/Landing';
 import ShoppingList from './Pages/ShoppingList';
-import WasteFood from './Pages/WasteFood';
+import FoodWaste from './Pages/FoodWaste';
 import Settings from './Pages/Settings';
 
 function App() {
@@ -15,11 +15,11 @@ function App() {
             <Routes>
 
                 <Route element={<ProtectedRoutes/>}>
-                    <Route path='/household' element={<Household />} />
+                    <Route path='/fridges' element={<Fridges />} />
                     <Route path='/shopping' element={<ShoppingList />} />
-                    <Route path='/waste' element={<WasteFood />} />
+                    <Route path='/waste' element={<FoodWaste />} />
                     <Route path='/settings' element={<Settings />} />
-                    <Route path='*' element={<Navigate to="/household" replace />} />
+                    <Route path='*' element={<Navigate to="/fridges" replace />} />
                 </Route>
 
                 <Route element={<OpenRoutes />} >
