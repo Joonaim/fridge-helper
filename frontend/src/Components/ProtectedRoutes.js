@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import LoadingPage from "../Pages/LoadingPage";
-import NavBar from "../Pages/NavBar";
+import NavBar from "./NavBar";
 import { useUserContext } from "./UserContext";
 
 const ProtectedRoutes = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../Components/UserContext";
+import { useUserContext } from "./UserContext";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@mui/material/Button";
@@ -16,10 +16,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Login({
-  loginOpen,
-  handleCloseLogin,
-  changeToRegister,
+export default function Register({
+  registerOpen,
+  handleCloseRegister,
+  changeToLogin,
 }) {
   const { setUser } = useUserContext();
   const navigate = useNavigate();
@@ -38,12 +38,17 @@ export default function Login({
       .string("Enter your password")
       .min(8, "Password should be of minimum 8 characters length")
       .required("Password is required"),
+    passwordConfirmation: yup
+      .string("Confirm your password")
+      .oneOf([yup.ref("password"), null], "Passwords must match")
+      .required("Confirm your password!"),
   });
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      passwordConfirmation: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
@@ -53,7 +58,7 @@ export default function Login({
       setAlertMsg("");
       setAlertOpen(false);
 
-      fetch("/auth/login", {
+      fetch("/auth/register", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -91,7 +96,7 @@ export default function Login({
             setAlertOpen(true);
             setAlertSvrt("error");
           } else if (data.authenticated) {
-            setAlertMsg("Sucessfully signed in!");
+            setAlertMsg("Registration succeeded!");
             setAlertOpen(true);
             setAlertSvrt("success");
             navigate("/household");
@@ -103,20 +108,20 @@ export default function Login({
   const allowHandleClose = () => {
     if (!loading) {
       setAlertOpen(false);
+      handleCloseRegister();
       formik.handleReset();
-      handleCloseLogin();
     }
   };
 
-  const handleChangeToRegister = () => {
+  const handleChangeToLogin = () => {
     setAlertOpen(false);
     formik.handleReset();
-    changeToRegister();
+    changeToLogin();
   };
 
   return (
     <Dialog
-      open={loginOpen}
+      open={registerOpen}
       onClose={allowHandleClose}
       TransitionComponent={Transition}
       maxWidth="sm"
@@ -131,7 +136,7 @@ export default function Login({
           spacing={1}
         >
           <Grid item>
-            <h1>Log in</h1>
+            <h1>Register</h1>
           </Grid>
         </Grid>
 
@@ -156,7 +161,7 @@ export default function Login({
           </Alert>
         </Collapse>
 
-        <form id="loginForm" onSubmit={formik.handleSubmit}>
+        <form id="registerForm" onSubmit={formik.handleSubmit}>
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <TextField
@@ -196,6 +201,30 @@ export default function Login({
                 {...formik.getFieldProps("password")}
               />
             </Grid>
+            <Grid item>
+              <TextField
+                disabled={loading}
+                type="password"
+                id="passwordConfirmation"
+                label="Confirm Password"
+                placeholder="Confirm Password"
+                fullWidth
+                error={
+                  formik.touched.passwordConfirmation &&
+                  Boolean(formik.errors.passwordConfirmation)
+                }
+                helperText={
+                  formik.touched.passwordConfirmation &&
+                  formik.errors.passwordConfirmation
+                }
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.target.blur();
+                  }
+                }}
+                {...formik.getFieldProps("passwordConfirmation")}
+              />
+            </Grid>
           </Grid>
         </form>
 
@@ -214,10 +243,10 @@ export default function Login({
             <Link
               component="button"
               variant="body1"
-              onClick={handleChangeToRegister}
+              onClick={handleChangeToLogin}
               underline="always"
             >
-              Register
+              Log in
             </Link>
           </Grid>
         </Grid>
@@ -226,8 +255,8 @@ export default function Login({
         <Button onClick={allowHandleClose} disabled={loading}>
           Cancel
         </Button>
-        <Button form="loginForm" type="submit" disabled={loading}>
-          Sign in
+        <Button form="registerForm" type="submit" disabled={loading}>
+          Register
         </Button>
       </DialogActions>
     </Dialog>

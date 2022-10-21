@@ -11,7 +11,7 @@ import { Link, useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ClearIcon from "@mui/icons-material/Clear";
 
-import { useUserContext } from "../Components/UserContext";
+import { useUserContext } from "./UserContext";
 
 const navigationLinks = [
   { name: "My Household", to: "/household" },

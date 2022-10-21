@@ -25,9 +25,9 @@ const AddItemModal = ({ createItem }) => {
   const addItem = (event) => {
     event.preventDefault();
     createItem({
-      name: name,
-      purchaseDate: purchaseDate,
-      expiryDate: expiryDate,
+      name,
+      purchaseDate,
+      expiryDate,
       amount: numberOfProducts,
     });
   };
