@@ -13,7 +13,6 @@ import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import RemoveIcon from "@mui/icons-material/Remove";
 
@@ -27,23 +26,24 @@ const AddItemModal = ({ fridgeId, setCurrentFridge }) => {
 
   const addItem = async (event) => {
     event.preventDefault();
-    const res = await axios.post(
-      url,
-      {
-        name: name,
-        purchaseDate: purchaseDate,
-        expiryDate: expiryDate,
-        amount: numberOfProducts,
-        fridgeId: fridgeId,
-      },
-      { withCredentials: true }
-    );
-    setCurrentFridge((prev) => {
-      return {
-        ...prev,
-        products: prev.products.concat(res.data),
-      };
-    });
+    const newItem = {
+      name,
+      purchaseDate,
+      expiryDate,
+      amount: numberOfProducts,
+      fridgeId,
+    };
+    try {
+      const res = await axios.post(url, newItem, { withCredentials: true });
+      setCurrentFridge((prev) => {
+        return {
+          ...prev,
+          products: prev.products.concat(res.data),
+        };
+      });
+    } catch (error) {
+      console.log(error.response.data);
+    }
   };
 
   return (
@@ -77,7 +77,7 @@ const AddItemModal = ({ fridgeId, setCurrentFridge }) => {
               />
               <MobileDatePicker
                 label="Expiration date"
-                inputFormat="MM/DD/YYYY"
+                inputFormat="DD/MM/YYYY"
                 value={expiryDate}
                 onChange={(value) => setExpiryDate(value)}
                 variant="standard"

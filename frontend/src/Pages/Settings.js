@@ -1,13 +1,11 @@
 import React from "react";
-import { Divider, Button, Typography, Stack} from "@mui/material";
+import { Divider, Button, Typography, Stack } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/system";
 
 import { useUserContext } from "../Components/UserContext";
-
-//looks bad on mobile, styling could be improved
 
 const Settings = () => {
   const { user } = useUserContext();
@@ -18,44 +16,44 @@ const Settings = () => {
         <PersonIcon />
         <Typography variant="body1">{user.email}</Typography>
       </Email>
-      <Divider/>
-      
+      <Divider />
+
       <Stack>
-      <SettingItem>
-        <SettingButton component={Link} to="/general">
-          <Typography variant="body1">General</Typography>
-          <ArrowForwardIosIcon />
-        </SettingButton>
-      </SettingItem>
-
-      <Divider/>
-
-      <SettingItem>
-        <SettingButton component={Link} to="/managehouseholds">
-          <Typography variant="body1">Manage households</Typography>
+        <SettingItem>
+          <SettingButton component={Link} to="/general">
+            <Typography variant="body1">General</Typography>
             <ArrowForwardIosIcon />
           </SettingButton>
-      </SettingItem>
+        </SettingItem>
 
-      <Divider/>
+        <Divider />
 
-      <SettingItem>
-        <SettingButton component={Link} to="/terms">
-          <Typography variant="body1">Terms and conditions</Typography>
+        <SettingItem>
+          <SettingButton component={Link} to="/managehouseholds">
+            <Typography variant="body1">Manage households</Typography>
             <ArrowForwardIosIcon />
           </SettingButton>
-      </SettingItem>
+        </SettingItem>
 
-      <Divider/>
+        <Divider />
 
-      <SettingItem>
-        <SettingButton component={Link} to="/faq">
-          <Typography variant="body1">FAQ</Typography>
+        <SettingItem>
+          <SettingButton component={Link} to="/terms">
+            <Typography variant="body1">Terms and conditions</Typography>
             <ArrowForwardIosIcon />
-        </SettingButton>
-      </SettingItem>
+          </SettingButton>
+        </SettingItem>
 
-      <Divider/>
+        <Divider />
+
+        <SettingItem>
+          <SettingButton component={Link} to="/faq">
+            <Typography variant="body1">FAQ</Typography>
+            <ArrowForwardIosIcon />
+          </SettingButton>
+        </SettingItem>
+
+        <Divider />
       </Stack>
     </>
   );
@@ -64,15 +62,15 @@ const Settings = () => {
 export default Settings;
 
 const Email = styled(Stack)({
-  padding: '8px 12px 8px 12px',
-})
+  padding: "8px 12px 8px 12px",
+});
 
-const SettingItem= styled('div')({
-  padding: '0 12px 0 12px',
-})
+const SettingItem = styled("div")({
+  padding: "0 12px 0 12px",
+});
 
 const SettingButton = styled(Button)({
-  display: 'grid',
-  gridTemplateColumns: '1fr 24px',
-  color: 'black',
-})
+  display: "grid",
+  gridTemplateColumns: "1fr 24px",
+  color: "black",
+});
