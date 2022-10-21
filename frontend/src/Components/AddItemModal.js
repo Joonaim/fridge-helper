@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -16,34 +15,21 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-const AddItemModal = ({ fridgeId, setCurrentFridge }) => {
-  const url = "/api/products";
+const AddItemModal = ({ createItem }) => {
   const [name, setName] = useState("");
   const [purchaseDate, setPurchaseDate] = useState(dayjs());
   const [expiryDate, setExpiryDate] = useState(dayjs());
   const [numberOfProducts, setNumber] = useState(1);
   const [open, setOpen] = useState(false);
 
-  const addItem = async (event) => {
+  const addItem = (event) => {
     event.preventDefault();
-    const newItem = {
-      name,
-      purchaseDate,
-      expiryDate,
+    createItem({
+      name: name,
+      purchaseDate: purchaseDate,
+      expiryDate: expiryDate,
       amount: numberOfProducts,
-      fridgeId,
-    };
-    try {
-      const res = await axios.post(url, newItem, { withCredentials: true });
-      setCurrentFridge((prev) => {
-        return {
-          ...prev,
-          products: prev.products.concat(res.data),
-        };
-      });
-    } catch (error) {
-      console.log(error.response.data);
-    }
+    });
   };
 
   return (

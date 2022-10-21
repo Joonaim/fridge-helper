@@ -5,17 +5,19 @@ import SelectFridge from "../Components/SelectFridge";
 import AddItemModal from "../Components/AddItemModal";
 
 const Household = () => {
-  const [userFridges, setUserFridges] = useState();
   const { user } = useUserContext();
+  const [fridges, setFridges] = useState();
+  const [fridgeId, setFridgeId] = useState(); //currently selected
+
   const url = `/api/users/${user.id}`;
-  const [currentFridge, setCurrentFridge] = useState();
+  const urlItems = "/api/products";
+  const selectedFridge = fridges?.find((f) => f.id == fridgeId);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await axios.get(url, { withCredentials: true });
-        setUserFridges(res.data.userFridges);
-        //setCurrentFridge(userFridges[1]); ???
+        setFridges(res.data.userFridges);
         //Mock data to test household button
         //setUserFridges([{id:1, name:"koti", products:[{id:1, name:"milk"}]}, {id:2, name:"vene", products:[{id:1, name:"milk"}]}, {id:3, name:"sauna", products:[{id:1, name:"juusto"}]}]);
       } catch (err) {
@@ -41,25 +43,43 @@ const Household = () => {
   //     postFridge()
   // }, [])
 
+  const createItem = async (newItem) => {
+    try {
+      const res = await axios.post(
+        urlItems,
+        { ...newItem, fridgeId },
+        {
+          withCredentials: true,
+        }
+      );
+      setFridges(
+        fridges.map((f) =>
+          f.id !== fridgeId
+            ? f
+            : { ...f, products: f.products.concat(res.data) }
+        )
+      );
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
   return (
     <>
-      {userFridges && (
+      {fridges && (
         <div>
           <h2>Household Page</h2>
           <SelectFridge
-            currentFridge={currentFridge}
-            setCurrentFridge={setCurrentFridge}
-            fridges={userFridges}
+            currentFridge={fridgeId}
+            setCurrentFridge={setFridgeId}
+            fridges={fridges}
           />
-          <AddItemModal
-            fridgeId={currentFridge?.id}
-            setCurrentFridge={setCurrentFridge}
-          />
+          <AddItemModal createItem={createItem} />
 
-          {currentFridge && (
+          {selectedFridge && (
             <div>
-              Current fridge: {currentFridge.name}
-              {currentFridge?.products.map((product) => (
+              Current fridge: {selectedFridge.name}
+              {selectedFridge?.products.map((product) => (
                 <li key={product.id}>
                   {product.name} {product.amount} {product.purchaseDate}{" "}
                   {product.expiryDate}
