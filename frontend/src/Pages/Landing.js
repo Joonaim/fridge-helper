@@ -31,16 +31,16 @@ export default function Landing() {
       {
         index: 1,
         name: 'esimerkki1',
-        media: 'https://mario.wiki.gallery/images/f/fb/Sticker_Mushroom_-_Mario_Party_Superstars.png',
-        bgcolor: 'green',
-        text: 'mushroom taste good ipsum dipsum lorem solem more text vesihiisi hississä sihisi'
+        media: 'https://www.lifepng.com/wp-content/uploads/2020/11/Vintage-Refrigerator-png-hd.png',
+        bgcolor: '#945D60',
+        text: "It's true, Fridge helper will help you save money and nature. Less food waste, less headache. Amazing. Get started today."
       },
       {
         index: 2,
         name: 'esimerkki2',
-        media: 'https://static-cdn.jtvnw.net/jtv_user_pictures/6cadbaf3-ffdf-4e6c-8629-2a54ad250193-profile_image-300x300.png',
-        bgcolor: 'red',
-        text: 'you got gnomed ipsum dipsum lorem solem more text ärrän kierrän orren ympäri fox fence something quick'
+        media: 'https://s3-alpha-sig.figma.com/img/07db/e0bd/d7e3918e89a97bf33189f6c3a35b9094?Expires=1667174400&Signature=Shmsd7UvHCYoJLujOAeqUpJm3ZVuPlLag1R95ZyYXaJL7wwoLT-SSIN0AR4757G-dcHajsCz1uIfIS3Y16Q2m7yaKmg36mN-yPddpxyabY73BSyY-wCeAF8EHo8kxQvEw3GXJnraOy5wAia-9pJUyWJUgSQPr2Mwgy6l1yg53k7DFs3XwccH5flrd-~sEKJyA~Fq4ZkmkYCe17wnWORz~Un5YXncnhQ1qtjincCW~5oU4BlJWP3TWSE13GkyWr9e-OAIwYQSV2zK6cIuDkY-7dh3rKoDpw4C487K6TIOD7Ge3e22QOMP-QixLkW3e5K1MhCMQ0OFPgKr68uULOd1mA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+        bgcolor: '#626E60',
+        text: 'From the household menu you can easily see and manage the contents of your fridge.'
       }
     ]
   
@@ -63,12 +63,14 @@ export default function Landing() {
               <Box
                 component="img"
                 sx={{
-                  width: '50%',
-                  height: 400
+                  maxHeight: 400
                 }}
                 src={item.media}
               />
-              <Typography align="center">{item.text}</Typography>
+              <Typography align="center" 
+                          sx={{fontFamily: "Open Sans", 
+                               color: "#FFFFFF", 
+                               fontSize: "22"}}>{item.text}</Typography>
             </Grid>
             )}
           )}
