@@ -4,10 +4,10 @@ const User = require('./user')
 const UserFridge = require('./userFridge')
 const WasteProduct = require('./wasteProduct')
 
-Fridge.hasMany(Product)
+Fridge.hasMany(Product, { onDelete: 'CASCADE', hooks: true })
 Product.belongsTo(Fridge)
 
-Fridge.hasMany(WasteProduct)
+Fridge.hasMany(WasteProduct, { onDelete: 'CASCADE', hooks: true })
 WasteProduct.belongsTo(Fridge)
 
 User.belongsToMany(Fridge, { through: UserFridge, as: 'userFridges' })
@@ -20,4 +20,3 @@ module.exports = {
   UserFridge,
   WasteProduct
 }
-

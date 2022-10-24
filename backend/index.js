@@ -46,21 +46,16 @@ app.use(
 app.use(middleware.requestLogger)
 app.use(express.static('build'))
 
+app.use('/auth', authRouter)
+
+app.use(middleware.sessionMiddleware)
 app.use('/api/fridges', fridgeRouter)
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter)
 app.use('/api/userfridges', userFridgeRouter)
-app.use('/auth', authRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
-
-app.get('*', function (req, res) {
-  res.status(404).send()
-})
-app.post('*', function (req, res) {
-  res.status(404).send()
-})
 
 const start = async () => {
   await connectToDatabase()

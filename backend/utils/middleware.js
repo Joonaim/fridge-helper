@@ -27,4 +27,16 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
-module.exports = { requestLogger, unknownEndpoint, errorHandler }
+const sessionMiddleware = async (req, res, next) => {
+  if (!req.session || !req.session.user) {
+    res.status(401).send()
+  }
+  next()
+}
+
+module.exports = {
+  requestLogger,
+  unknownEndpoint,
+  errorHandler,
+  sessionMiddleware
+}

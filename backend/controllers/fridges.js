@@ -1,38 +1,39 @@
 const router = require('express').Router()
+const { Op } = require('sequelize')
 
-const { Fridge, Product, UserFridge } = require('../models')
+const { Fridge, UserFridge } = require('../models')
 
-router.get('/', async (req, res) => {
-  const fridges = await Fridge.findAll({
-    include: {
-      model: Product,
-      attributes: { exclude: ['fridgeId'] }
-    }
-  })
-  res.json(fridges)
-})
-
-router.get('/:id', async (req, res) => {
-  const fridge = await Fridge.findByPk(req.params.id, {
-    include: {
-      model: Product,
-      attributes: { exclude: ['fridgeId'] }
-    }
+router.post('/', async (req, res) => {
+  const fridge = await Fridge.create({ ...req.body })
+  await UserFridge.create({
+    fridgeId: fridge.id,
+    userId: req.session.user.id,
+    admin: true
   })
   res.json(fridge)
 })
 
-router.post('/', async (req, res) => {
-  if (req.session && req.session.user) {
-    const fridge = await Fridge.create({ ...req.body })
-    await UserFridge.create({
-      fridgeId: fridge.id,
-      userId: req.session.user.id,
-      admin: true
+const fridgeFindById = async (req, res, next) => {
+  req.fridge = await Fridge.findByPk(req.params.id)
+  if (!req.fridge) return res.status(401).json({ error: 'fridge not found' })
+  next()
+}
+
+router.delete('/:id', fridgeFindById, async (req, res) => {
+  const fridgeId = req.params.id
+
+  const user = await UserFridge.findOne({
+    where: {
+      [Op.and]: [{ fridgeId: fridgeId }, { userId: req.session.user.id }]
+    }
+  })
+  if (user.admin) {
+    await UserFridge.destroy({
+      where: { fridgeId: fridgeId }
     })
-    res.json(fridge)
+    await req.fridge.destroy()
   } else {
-    res.status(401).send()
+    return res.status(401).json({ error: 'operation not permitted' })
   }
 })
 

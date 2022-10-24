@@ -10,6 +10,13 @@ import { useUserContext } from "../Components/UserContext";
 const Settings = () => {
   const { user } = useUserContext();
 
+  const settingItems = [
+    { text: "General", route: "general" },
+    { text: "Manage households", route: "managehouseholds" },
+    { text: "Terms and conditions", route: "terms" },
+    { text: "FAQ", route: "faq" },
+  ];
+
   return (
     <>
       <Email direction="row" alignItems="center" gap={0}>
@@ -19,41 +26,15 @@ const Settings = () => {
       <Divider />
 
       <Stack>
-        <SettingItem>
-          <SettingButton component={Link} to="/general">
-            <Typography variant="body1">General</Typography>
-            <ArrowForwardIosIcon />
-          </SettingButton>
-        </SettingItem>
-
-        <Divider />
-
-        <SettingItem>
-          <SettingButton component={Link} to="/managehouseholds">
-            <Typography variant="body1">Manage households</Typography>
-            <ArrowForwardIosIcon />
-          </SettingButton>
-        </SettingItem>
-
-        <Divider />
-
-        <SettingItem>
-          <SettingButton component={Link} to="/terms">
-            <Typography variant="body1">Terms and conditions</Typography>
-            <ArrowForwardIosIcon />
-          </SettingButton>
-        </SettingItem>
-
-        <Divider />
-
-        <SettingItem>
-          <SettingButton component={Link} to="/faq">
-            <Typography variant="body1">FAQ</Typography>
-            <ArrowForwardIosIcon />
-          </SettingButton>
-        </SettingItem>
-
-        <Divider />
+        {settingItems.map((item) => (
+          <SettingItem key={item.text}>
+            <SettingButton component={Link} to={`/${item.route}`}>
+              <Typography variant="body1">{item.text}</Typography>
+              <ArrowForwardIosIcon />
+            </SettingButton>
+            <Divider />
+          </SettingItem>
+        ))}
       </Stack>
     </>
   );
