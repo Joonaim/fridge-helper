@@ -25,7 +25,7 @@ const checkAdminPermission = async (req, res, next) => {
       [Op.and]: [{ fridgeId: req.params.id }, { userId: req.session.user.id }]
     }
   })
-  if (!user.admin) {
+  if (!user || !user.admin) {
     return res.status(401).json({ error: 'operation not permitted' })
   }
   next()
