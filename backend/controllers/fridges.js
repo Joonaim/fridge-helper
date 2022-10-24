@@ -4,7 +4,7 @@ const { Op } = require('sequelize')
 const { Fridge, UserFridge } = require('../models')
 
 router.post('/', async (req, res) => {
-  const fridge = await Fridge.create({ ...req.body })
+  const fridge = await Fridge.create(req.body)
   await UserFridge.create({
     fridgeId: fridge.id,
     userId: req.session.user.id,

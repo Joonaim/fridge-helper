@@ -25,7 +25,7 @@ const checkUserPermission = async (req, res, next) => {
 }
 
 router.post('/', checkUserPermission, async (req, res) => {
-  const product = await Product.create({ ...req.body })
+  const product = await Product.create(req.body)
   res.json(product)
 })
 

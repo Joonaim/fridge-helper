@@ -2,5 +2,5 @@ POST http://localhost:3003/api/fridges
 Content-Type: application/json
 
 {
-    "name": "Fridge Dev4"
+    "name": "Fridge Dev5"
 }
