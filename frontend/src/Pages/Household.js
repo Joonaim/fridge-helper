@@ -29,22 +29,19 @@ const Household = () => {
 
   // CREATE NEW FRIDGE
 
-  // useEffect(() => {
-  //   async function postFridge() {
-  //     try {
-  //       const res = await axios.post(
-  //         "/api/fridges",
-  //         { name: "testi" },
-  //         { withCredentials: true }
-  //       );
-  //       console.log(res);
-  //       //setReady(true)
-  //     } catch (err) {
-  //       console.log(err);
+  // useEffect(()=> {
+  //     async function postFridge(){
+  //         try{
+  //         const res = await axios.post('/api/fridges', {name: 'testi'}, {withCredentials: true})
+  //         console.log(res)
+  //         setReady(true)
+  //         }
+  //         catch(err){
+  //             console.log(err)
+  //         }
   //     }
-  //   }
-  //   postFridge();
-  // }, []);
+  //     postFridge()
+  // }, [])
 
   const createItem = async (newItem) => {
     try {

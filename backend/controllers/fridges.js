@@ -19,22 +19,29 @@ const fridgeFindById = async (req, res, next) => {
   next()
 }
 
-router.delete('/:id', fridgeFindById, async (req, res) => {
-  const fridgeId = req.params.id
-
+const checkAdminPermission = async (req, res, next) => {
   const user = await UserFridge.findOne({
     where: {
-      [Op.and]: [{ fridgeId: fridgeId }, { userId: req.session.user.id }]
+      [Op.and]: [{ fridgeId: req.params.id }, { userId: req.session.user.id }]
     }
   })
-  if (user.admin) {
-    await UserFridge.destroy({
-      where: { fridgeId: fridgeId }
-    })
-    await req.fridge.destroy()
-  } else {
+  if (!user.admin) {
     return res.status(401).json({ error: 'operation not permitted' })
   }
-})
+  next()
+}
+
+router.delete(
+  '/:id',
+  fridgeFindById,
+  checkAdminPermission,
+  async (req, res) => {
+    await UserFridge.destroy({
+      where: { fridgeId: req.params.id }
+    })
+    await req.fridge.destroy()
+    res.status(204).end()
+  }
+)
 
 module.exports = router
