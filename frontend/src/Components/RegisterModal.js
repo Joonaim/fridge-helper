@@ -8,9 +8,21 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import { Grid, Alert, Collapse, IconButton, Link } from "@mui/material";
+import {
+  Grid,
+  Alert,
+  Collapse,
+  IconButton,
+  Link,
+  FormControlLabel,
+  FormHelperText,
+  Checkbox,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
+
+import ScrollDialog from "./TermsDialog";
+import { Stack } from "@mui/system";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -42,6 +54,7 @@ export default function Register({
       .string("Confirm your password")
       .oneOf([yup.ref("password"), null], "Passwords must match")
       .required("Confirm your password!"),
+    terms: yup.boolean().oneOf([true], "Please sign terms and conditions"),
   });
 
   const formik = useFormik({
@@ -49,6 +62,7 @@ export default function Register({
       email: "",
       password: "",
       passwordConfirmation: "",
+      terms: false,
     },
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
@@ -224,6 +238,26 @@ export default function Register({
                 }}
                 {...formik.getFieldProps("passwordConfirmation")}
               />
+            </Grid>
+            <Grid item>
+              <Stack direction="row" alignItems="center" gap={0} marginLeft={1}>
+                <FormControlLabel
+                  error={formik.errors.terms}
+                  control={
+                    <Checkbox
+                      checked={formik.values.terms}
+                      onChange={formik.handleChange}
+                      name="terms"
+                    />
+                  }
+                />
+                <ScrollDialog />
+              </Stack>
+              <FormHelperText
+                error={formik.touched.terms && formik.errors.terms}
+              >
+                {formik.touched.terms && formik.errors.terms}
+              </FormHelperText>
             </Grid>
           </Grid>
         </form>

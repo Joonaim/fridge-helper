@@ -29,7 +29,7 @@ const errorHandler = (error, request, response, next) => {
 
 const sessionMiddleware = async (req, res, next) => {
   if (!req.session || !req.session.user) {
-    return res.status(401).send()
+    return res.status(401).send({ error: 'invalid session' })
   }
   next()
 }
