@@ -33,8 +33,8 @@ const checkAdminPermission = async (req, res, next) => {
 
 router.delete(
   '/:id',
-  fridgeFindById,
   checkAdminPermission,
+  fridgeFindById,
   async (req, res) => {
     await UserFridge.destroy({
       where: { fridgeId: req.params.id }
@@ -43,5 +43,11 @@ router.delete(
     res.status(204).end()
   }
 )
+
+router.put('/:id', checkAdminPermission, fridgeFindById, async (req, res) => {
+  req.fridge.name = req.body.name
+  await req.fridge.save()
+  res.status(202).json(req.fridge)
+})
 
 module.exports = router

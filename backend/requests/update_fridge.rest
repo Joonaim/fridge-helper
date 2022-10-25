@@ -1,0 +1,6 @@
+PUT http://localhost:3003/api/fridges/1
+Content-Type: application/json
+
+{
+    "name": "Renamed fridge"
+}

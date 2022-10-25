@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/products/1
+Content-Type: application/json
+
+{
+    "name": "New Name",
+    "purchaseDate": "2022-10-24T17:30:58.910Z",
+    "expiryDate": null,
+    "amount" : 10
+}
