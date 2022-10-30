@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import SelectFridge from "../Components/SelectFridge";
 import AddItemModal from "../Components/AddItemModal";
+import EditItemModal from "../Components/EditItemModal";
+import ProductsTable from "../Components/ProductsTable";
 
 const Household = () => {
   const { user } = useUserContext();
@@ -64,6 +66,22 @@ const Household = () => {
     }
   };
 
+  const manageItem = async (editedItem) =>{
+    try {
+      const res = await axios.put(urlItems, {...editedItem, fridgeId}, {withCredentials: true});      
+      setFridges(
+        fridges.map((f) =>
+          f.id !== fridgeId
+            ? f
+            : { ...f, products: f.products.concat(res.data) }
+        )
+      );
+    }
+    catch (error) {
+      console.log(error.response.data);
+    }
+  }
+
   return (
     <>
       {fridges && (
@@ -76,13 +94,14 @@ const Household = () => {
           />
           <AddItemModal createItem={createItem} />
 
+          <ProductsTable data = {selectedFridge?.products} manageItem={manageItem}/>
           {selectedFridge && (
             <div>
               Current fridge: {selectedFridge.name}
               {selectedFridge?.products.map((product) => (
                 <li key={product.id}>
                   {product.name} {product.amount} {product.purchaseDate}{" "}
-                  {product.expiryDate}
+                  {product.expiryDate} <EditItemModal item={product} manageItem={manageItem}/>
                 </li>
               ))}
             </div>
