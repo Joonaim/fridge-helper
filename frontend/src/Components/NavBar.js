@@ -112,7 +112,7 @@ export default function NavBar() {
       position="sticky"
       elevation={0}
       color={"transparent"}
-      style={{ margin: 0 }}
+      style={{ margin: 0, padding: 0, background: '#FFFFFF' }}
     >
       <Container maxWidth="false">
         <Toolbar disableGutters sx={{ justifyContent: "right" }}>
