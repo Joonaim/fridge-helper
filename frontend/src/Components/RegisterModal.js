@@ -17,12 +17,12 @@ import {
   FormControlLabel,
   FormHelperText,
   Checkbox,
+  Stack,
+  Slide,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import Slide from "@mui/material/Slide";
 
 import ScrollDialog from "./TermsDialog";
-import { Stack } from "@mui/system";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

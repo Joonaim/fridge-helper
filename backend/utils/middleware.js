@@ -27,7 +27,7 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
-const sessionMiddleware = async (req, res, next) => {
+const sessionValidator = async (req, res, next) => {
   if (!req.session || !req.session.user) {
     return res.status(401).send({ error: 'invalid session' })
   }
@@ -38,5 +38,5 @@ module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler,
-  sessionMiddleware
+  sessionValidator
 }

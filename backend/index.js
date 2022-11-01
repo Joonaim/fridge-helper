@@ -49,7 +49,7 @@ app.use(express.static('build'))
 
 app.use('/auth', authRouter)
 
-app.use(middleware.sessionMiddleware)
+app.use(middleware.sessionValidator)
 app.use('/api/fridges', fridgeRouter)
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter)

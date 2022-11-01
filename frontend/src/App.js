@@ -9,7 +9,7 @@ import Settings from "./Pages/Settings";
 import General from "./Pages/General";
 import ManageHouseholds from "./Pages/ManageHouseholds";
 import Terms from "./Pages/Terms";
-import FAQ from "./Pages/FAQ";
+import Faq from "./Pages/Faq";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           <Route path="/general" element={<General />} />
           <Route path="/managehouseholds" element={<ManageHouseholds />} />
           <Route path="/terms" element={<Terms />} />
-          <Route path="/faq" element={<FAQ />} />
+          <Route path="/faq" element={<Faq />} />
           <Route path="*" element={<Navigate to="/household" replace />} />
         </Route>
 
