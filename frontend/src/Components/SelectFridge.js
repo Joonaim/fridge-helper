@@ -85,6 +85,7 @@ const HouseholdButton = styled(Button)({
   lineHeight: "24px",
   padding: "8px 16px 8px 16px",
   gap: "6px",
+  marginBottom: "8px",
   "&:hover": {
     background: "#384036",
   },

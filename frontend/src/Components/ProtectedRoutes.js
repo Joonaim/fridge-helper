@@ -13,7 +13,7 @@ const ProtectedRoutes = () => {
       <NavBar />
       {
         //For debugging...
-        <h1>User Info: {JSON.stringify(user)}</h1>
+        //<h1>User Info: {JSON.stringify(user)}</h1>
       }
       <Outlet />
     </>

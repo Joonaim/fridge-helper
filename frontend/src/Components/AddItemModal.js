@@ -33,7 +33,7 @@ const AddItemModal = ({ createItem }) => {
   };
 
   return (
-    <div>
+    <>
       <AddButton
         variant="outlined"
         size="small"
@@ -97,7 +97,7 @@ const AddItemModal = ({ createItem }) => {
           </Form>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 };
 
@@ -109,7 +109,6 @@ const AddButton = styled(Button)({
   textDecoration: "none",
   fontFamily: "Open sans",
   fontSize: "18px",
-  margin: "0.5rem 0 1rem 0",
   "&:hover": {
     color: "#384036",
     border: "1px solid #384036",

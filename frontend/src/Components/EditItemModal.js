@@ -15,7 +15,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import RemoveIcon from "@mui/icons-material/Remove";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 
 const EditItemModal = ({ item, manageItem }) => {
 
@@ -29,22 +29,24 @@ const EditItemModal = ({ item, manageItem }) => {
   const editItem = async (event) => {
     event.preventDefault();
     manageItem({
-        name,
-        purchaseDate,
-        expiryDate,
-        amount: numberOfProducts,
-    })
-  }
+      id: item.id,
+      name,
+      purchaseDate,
+      expiryDate,
+      amount: numberOfProducts,
+    });
+  };
 
 
   return (
     <div>{item &&<>
-      <AddButton
+      <EditButton
         variant="outlined"
         size="small"
         onClick={() => setOpen(true)}
-      ><EditIcon fontSize='small'/>
-      </AddButton>
+      >
+        <EditIcon fontSize='small'/>
+      </EditButton>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Edit item</DialogTitle>
@@ -108,13 +110,13 @@ const EditItemModal = ({ item, manageItem }) => {
 
 export default EditItemModal;
 
-const AddButton = styled(IconButton)({
+const EditButton = styled(IconButton)({
   color: "#626E60",
   textDecoration: "none",
   margin: "0.5rem 0 1rem 0",
   "&:hover": {
     color: "#384036",
-    border: "1px solid #384036",
+  
     background: "white",
   },
 });
@@ -136,4 +138,5 @@ const AmountButton = styled(IconButton)({
 
 const Actions = styled(DialogActions)({
   margin: " 1rem -1rem -1rem 0",
+  color: "#626E60",
 });
