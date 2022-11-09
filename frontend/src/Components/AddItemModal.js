@@ -24,12 +24,13 @@ const AddItemModal = ({ createItem }) => {
 
   const addItem = (event) => {
     event.preventDefault();
-    createItem({
-      name,
-      purchaseDate,
-      expiryDate,
-      amount: numberOfProducts,
-    });
+    for (let i = 0; i < numberOfProducts; i++) {
+      createItem({
+        name,
+        purchaseDate,
+        expiryDate,
+      });
+    }
   };
 
   return (

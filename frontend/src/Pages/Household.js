@@ -3,11 +3,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import SelectFridge from "../Components/SelectFridge";
 import AddItemModal from "../Components/AddItemModal";
-import EditItemModal from "../Components/EditItemModal";
 import ProductsTable from "../Components/ProductsTable";
 import Warning from "../Components/Warning";
 import dayjs from "dayjs";
-import { Stack} from "@mui/system";
+import { Stack } from "@mui/system";
 import styled from "styled-components";
 
 const Household = () => {
@@ -33,21 +32,25 @@ const Household = () => {
     fetchData();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     // empty lists and find items always when selected firdge is changed
     setExpired([]);
     setExpiring([]);
 
     // Items that are expired
-    selectedFridge?.products.map((item)=> {
-      item.expiryDate && dayjs(item.expiryDate).isBefore(dayjs()) && setExpired(arr =>[...arr, item]);
-    }
-    );
+    selectedFridge?.products.map((item) => {
+      item.expiryDate &&
+        dayjs(item.expiryDate).isBefore(dayjs()) &&
+        setExpired((arr) => [...arr, item]);
+    });
     // Items that are expiring within 5 days
-    selectedFridge?.products.map((item)=> {
-      item.expiryDate && dayjs(item.expiryDate).isAfter(dayjs()) && item.expiryDate && dayjs(item.expiryDate).isBefore(dayjs().add(5, "day"))&& setExpiring(arr =>[...arr, item]);
-    }
-    );
+    selectedFridge?.products.map((item) => {
+      item.expiryDate &&
+        dayjs(item.expiryDate).isAfter(dayjs()) &&
+        item.expiryDate &&
+        dayjs(item.expiryDate).isBefore(dayjs().add(5, "day")) &&
+        setExpiring((arr) => [...arr, item]);
+    });
   }, [selectedFridge]);
 
   // CREATE NEW FRIDGE
@@ -75,8 +78,8 @@ const Household = () => {
           withCredentials: true,
         }
       );
-      setFridges(
-        fridges.map((f) =>
+      setFridges((prev) =>
+        prev.map((f) =>
           f.id !== fridgeId
             ? f
             : { ...f, products: f.products.concat(res.data) }
@@ -87,19 +90,26 @@ const Household = () => {
     }
   };
 
-  const manageItem = async (editedItem) =>{
+  const manageItem = async (editedItem) => {
     try {
       const res = await axios.put(
-        `${urlItems}/${editedItem.id}`, {...editedItem, fridgeId}, {withCredentials: true});     
-      setFridges(
-        fridges.map((f) =>
+        `${urlItems}/${editedItem.id}`,
+        { ...editedItem, fridgeId },
+        { withCredentials: true }
+      );
+      setFridges((prev) =>
+        prev.map((f) =>
           f.id !== fridgeId
             ? f
-            : { ...f, products: f.products.map((item)=> item.id === res.data.id ? res.data : item) }
+            : {
+                ...f,
+                products: f.products.map((item) =>
+                  item.id === res.data.id ? res.data : item
+                ),
+              }
         )
       );
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error.response.data);
     }
   };
@@ -117,11 +127,23 @@ const Household = () => {
             <AddItemModal createItem={createItem} />
           </ButtonSection>
           <Warnings>
-            {expired.length > 0 && <Warning type = 'error' message={`${expired.length} expired item(s)!`}/>}
-            {soonExpiring.length > 0 && <Warning type='warning' message={`${soonExpiring.length} item(s) exires within 5 days!`}/>}
+            {expired.length > 0 && (
+              <Warning
+                type="error"
+                message={`${expired.length} expired item(s)!`}
+              />
+            )}
+            {soonExpiring.length > 0 && (
+              <Warning
+                type="warning"
+                message={`${soonExpiring.length} item(s) exires within 5 days!`}
+              />
+            )}
           </Warnings>
-          <ProductsTable data = {selectedFridge?.products} manageItem={manageItem}/>
-          
+          <ProductsTable
+            data={selectedFridge?.products}
+            manageItem={manageItem}
+          />
         </div>
       )}
     </>
@@ -130,12 +152,9 @@ const Household = () => {
 
 export default Household;
 
-
 const Warnings = styled(Stack)`
-padding-bottom: 16px
+  padding-bottom: 16px;
 `;
-
-
 
 const ButtonSection = styled.div`
   display: block;
