@@ -22,11 +22,6 @@ Product.init(
     },
     expiryDate: {
       type: DataTypes.DATE
-    },
-    amount: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1
     }
   },
   {
@@ -38,4 +33,3 @@ Product.init(
 )
 
 module.exports = Product
-

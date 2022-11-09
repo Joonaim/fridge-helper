@@ -19,11 +19,6 @@ module.exports = {
       },
       expiry_date: {
         type: DataTypes.DATE
-      },
-      amount: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
-        allowNull: false
       }
     })
     await queryInterface.createTable('fridges', {
