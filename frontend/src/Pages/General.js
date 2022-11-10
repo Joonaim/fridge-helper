@@ -182,6 +182,7 @@ const General = () => {
       <Stack direction="row" alignItems="center" gap={1}>
         <TextField
           error={!validateEmail()}
+          label="email"
           defaultValue={user.email}
           InputProps={{
             startAdornment: (
@@ -191,7 +192,6 @@ const General = () => {
             ),
           }}
           onChange={(e) => handleTextFieldChange(e)}
-          helperText="Enter email"
         ></TextField>
         <Button onClick={submitNewUsername}>Change Username</Button>
       </Stack>
