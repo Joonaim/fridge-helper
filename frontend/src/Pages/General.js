@@ -47,6 +47,9 @@ const General = () => {
       setMsg(<Alert severity="error">Username must be email</Alert>);
       return;
     }
+    if (user.email == textFieldInput) {
+      return;
+    }
     try {
       await axios.put(
         `api/users/edit/${user.id}`,
@@ -98,6 +101,7 @@ const General = () => {
         console.log(e);
       }
       setMsg(<Alert severity="success">Password changed succesfully</Alert>);
+      formik.handleReset();
     },
   });
 
