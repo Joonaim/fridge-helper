@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { Op } = require('sequelize')
 
-const { Fridge, UserFridge } = require('../models')
+const { Fridge, UserFridge, User } = require('../models')
 
 router.post('/', async (req, res) => {
   const fridge = await Fridge.create(req.body)
@@ -18,6 +18,20 @@ const fridgeFindById = async (req, res, next) => {
   if (!req.fridge) return res.status(401).json({ error: 'fridge not found' })
   next()
 }
+
+router.get('/:id', async (req, res) => {
+  const fridge = await Fridge.findByPk(req.params.id, {
+    include: [
+      {
+        model: User,
+        as: 'fridgeUsers',
+        attributes: { exclude: ['password'] },
+        through: { attributes: ['admin'] }
+      }
+    ]
+  })
+  res.json(fridge)
+})
 
 const checkAdminPermission = async (req, res, next) => {
   const user = await UserFridge.findOne({
