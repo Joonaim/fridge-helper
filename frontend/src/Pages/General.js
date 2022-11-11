@@ -14,12 +14,21 @@ const General = () => {
   const { user } = useUserContext();
   const [textFieldInput, setTextFieldinput] = useState(user.email);
   const [msg, setMsg] = useState(null);
+  let timeoutID = null;
 
   const validateEmail = () => {
     if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(textFieldInput)) {
       return true;
     }
     return false;
+  };
+
+  const notificate = (message, severity = "error") => {
+    clearTimeout(timeoutID);
+    setMsg(<Alert severity={severity}>{message}</Alert>);
+    timeoutID = setTimeout(() => {
+      setMsg(null);
+    }, 5000);
   };
 
   const validationSchema = yup.object({
@@ -44,7 +53,7 @@ const General = () => {
 
   const submitNewUsername = async () => {
     if (!validateEmail()) {
-      setMsg(<Alert severity="error">Username must be email</Alert>);
+      notificate("Username must be email");
       return;
     }
     if (user.email == textFieldInput) {
@@ -62,7 +71,7 @@ const General = () => {
       console.log(e);
     }
     user.email = textFieldInput;
-    setMsg(<Alert severity="success">Username changed succesfully</Alert>);
+    notificate("Username changed succesfully", "success");
   };
 
   const formik = useFormik({
@@ -82,13 +91,12 @@ const General = () => {
           }
         );
         if (!res.data.authenticated) {
-          setMsg(<Alert severity="error">Invalid current password</Alert>);
+          notificate("Invalid current password");
           return;
         }
       } catch (e) {
         console.log(e);
       }
-      setMsg(undefined);
       try {
         await axios.put(
           `api/users/edit/${user.id}`,
@@ -100,7 +108,7 @@ const General = () => {
       } catch (e) {
         console.log(e);
       }
-      setMsg(<Alert severity="success">Password changed succesfully</Alert>);
+      notificate("Password changed succesfully", "success");
       formik.handleReset();
     },
   });
