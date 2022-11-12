@@ -17,6 +17,8 @@ const userFoodWasteRouter = require('./controllers/foodwaste')
 const authRouter = require('./routers/auth_router')
 const sequelize = require('sequelize')
 
+var path = require('path')
+
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -55,6 +57,10 @@ app.use('/api/products', productRouter)
 app.use('/api/users', userRouter)
 app.use('/api/userfridges', userFridgeRouter)
 app.use('/api/foodwaste', userFoodWasteRouter)
+
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '/build/index.html'))
+)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
