@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
@@ -9,6 +9,8 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import { Grid, Stack, Alert } from "@mui/material";
 import axios from "axios";
+
+import PrimaryButtonStyled from "../Components/PrimaryButtonStyled";
 
 const General = () => {
   const { user } = useUserContext();
@@ -162,7 +164,7 @@ const General = () => {
               {...formik.getFieldProps("password")}
             />
           </Grid>
-          <Grid item>
+          <Grid item marginBottom={1}>
             <TextField
               type="password"
               id="passwordConfirmation"
@@ -186,9 +188,9 @@ const General = () => {
             />
           </Grid>
         </Grid>
-        <Button type="submit" form="changePasswordForm">
+        <PrimaryButtonStyled type="submit" form="changePasswordForm">
           Change password
-        </Button>
+        </PrimaryButtonStyled>
       </form>
       <h4>Set New Username</h4>
       <Stack direction="row" alignItems="center" gap={1}>
@@ -205,7 +207,9 @@ const General = () => {
           }}
           onChange={(e) => handleTextFieldChange(e)}
         ></TextField>
-        <Button onClick={submitNewUsername}>Change Username</Button>
+        <PrimaryButtonStyled onClick={submitNewUsername}>
+          Change Username
+        </PrimaryButtonStyled>
       </Stack>
     </>
   );

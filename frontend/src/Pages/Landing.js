@@ -1,8 +1,10 @@
 import React from "react";
-import { BottomNavigation, Box, Button, Typography, Grid } from "@mui/material";
+import { BottomNavigation, Box, Typography, Grid } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
+
 import Login from "../Components/LoginModal";
 import Register from "../Components/RegisterModal";
+import PrimaryButtonStyled from "../Components/PrimaryButtonStyled";
 
 export default function Landing() {
   const [loginOpen, setLoginOpen] = React.useState(false);
@@ -102,15 +104,15 @@ export default function Landing() {
       />
 
       <BottomNavigation>
-        <Button variant="outlined" onClick={handleOpenLogin}>
+        <PrimaryButtonStyled variant="outlined" onClick={handleOpenLogin}>
           SIGN IN
-        </Button>
+        </PrimaryButtonStyled>
 
         <Typography sx={{ pl: 3, pr: 3, mt: 2 }}>OR</Typography>
 
-        <Button variant="outlined" onClick={handleOpenRegister}>
+        <PrimaryButtonStyled variant="outlined" onClick={handleOpenRegister}>
           CREATE ACCOUNT
-        </Button>
+        </PrimaryButtonStyled>
       </BottomNavigation>
     </div>
   );
