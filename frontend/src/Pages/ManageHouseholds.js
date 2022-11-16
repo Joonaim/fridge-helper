@@ -9,8 +9,10 @@ import axios from "axios";
 import SelectFridge from "../Components/SelectFridge";
 import AddFridgeButton from "../Components/AddFridgeButton";
 import DeleteFridgeButton from "../Components/DeleteFridgeButton";
+import UseInviteButton from "../Components/UseInviteButton";
 import UsersTable from "../Components/UsersTable";
 import { Stack } from "@mui/system";
+import dayjs from "dayjs";
 import styled from "styled-components";
 
 const ManageHouseholds = () => {
@@ -21,7 +23,7 @@ const ManageHouseholds = () => {
 
   const url = `/api/users/${user.id}`;
   const urlFridges = "/api/fridges";
-  const urlUserFridges = "/api/userfridges";
+  const urlInvite = "/api/invite";
   const selectedFridge = fridges?.find((f) => f.id == fridgeId);
 
   async function refreshFridges() {
@@ -52,14 +54,50 @@ const ManageHouseholds = () => {
     }
   }
   
+  async function createInvite() {
+    const admin = users.find(u => u.id === user.id).userFridge.admin
+    if(admin === true) {
+      const code = Math.random().toString(36).slice(2,7);
+      const now = dayjs()
+      const expires = now.add(1, 'day');
+      const invite = {
+        code: code,
+        expires: expires,
+        fridgeId: fridgeId
+      }
+      console.log(JSON.stringify(invite))
+      const res = await axios
+        .post(urlInvite,
+        invite,
+        {
+          withCredentials: true,
+        })
+        .then(alert("Your invite code is " + code))
+        .catch((e) => console.log(e));
+    }
+    else { console.log("Not admin") }
+  }
+  
   useEffect(() => {
     refreshFridges();
   }, []);
 
    useEffect(() => {
-    console.log(fridgeId);
+    //console.log(fridgeId);
     refreshUsers();
   }, [selectedFridge]);
+
+  const useInvite = async (code) => {
+    try {
+      const res = await axios
+        .get(urlInvite + '/' + code.name, { withCredentials: true })
+        .then((res) => {
+          refreshFridges();
+        })
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const createFridge = async (newFridge) => {
     const res = await axios
@@ -105,7 +143,9 @@ const ManageHouseholds = () => {
             />
             <AddFridgeButton createFridge={createFridge} />
             <DeleteFridgeButton deleteFridge={deleteFridge} name={selectedFridge?.name} />
-            <Button onClick={() => refreshUsers()}>(DEBUG) REFRESH USER LIST</Button>
+            <UseInviteButton useInvite={useInvite} />
+            <Button onClick={() => createInvite()}>(DEBUG) CREATE INVITE</Button>
+            <Button onClick={() => refreshUsers()}>(DEBUG) REFRESH USER LIST</Button> 
           </ButtonSection>
           
           <UsersTable

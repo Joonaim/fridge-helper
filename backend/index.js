@@ -14,6 +14,7 @@ const productRouter = require('./controllers/products')
 const userRouter = require('./controllers/users')
 const userFridgeRouter = require('./controllers/userfridges')
 const userFoodWasteRouter = require('./controllers/foodwaste')
+const inviteRouter = require('./controllers/invites')
 const authRouter = require('./routers/auth_router')
 const sequelize = require('sequelize')
 
@@ -57,6 +58,7 @@ app.use('/api/products', productRouter)
 app.use('/api/users', userRouter)
 app.use('/api/userfridges', userFridgeRouter)
 app.use('/api/foodwaste', userFoodWasteRouter)
+app.use('/api/invite', inviteRouter)
 
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/build/index.html'))
