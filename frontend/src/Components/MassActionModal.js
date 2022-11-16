@@ -8,7 +8,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { styled } from "@mui/system";
+import styled from "styled-components";
 import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -20,99 +20,62 @@ import AddButton from "./AddItemModal";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const EditItemModal = ({ item, manageItem, deleteItem }) => {
-  const [name, setName] = useState(item.name);
-  const [purchaseDate, setPurchaseDate] = useState(item.purchaseDate);
-  const [expiryDate, setExpiryDate] = useState(item.expiryDate);
-  const [numberOfProducts, setNumber] = useState(item.amount);
+const MassActionModal = ({selected, deleteItem, isfoodWaste}) => {
   const [open, setOpen] = useState(false);
-
-  const editItem = (event) => {
-    event.preventDefault();
-    manageItem({
-      id: item.id,
-      name,
-      purchaseDate,
-      expiryDate,
-      amount: numberOfProducts,
-    });
-  };
-
   const handleDelete = (event) =>{
     event.preventDefault();
-    deleteItem(item, true);
+    selected.map(item => 
+      deleteItem(item.id, isfoodWaste));
   };
 
-  return (
-    <div>{item &&<>
+  console.log(selected);
+  
+  return(
+    <div>
       <EditButton
         variant="outlined"
         size="small"
         onClick={() => setOpen(true)}
       >
-        <EditIcon fontSize='small'/>
+        <EditIcon fontSize='medium'/>
       </EditButton>
-
+      
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Edit item</DialogTitle>
+        <DialogTitle>Edit items</DialogTitle>
         <DialogContent>
-          <Form onSubmit={editItem}>
-            <Input
-              id="name"
-              value={name}
-              label="Item name"
-              variant="outlined"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <MobileDatePicker
-                label="Added"
-                inputFormat="DD/MM/YYYY"
-                value={purchaseDate}
-                onChange={(value) => setPurchaseDate(value)}
-                variant="standard"
-                renderInput={(params) => <Input {...params} />}
-              />
-              <MobileDatePicker
-                label="Expiration date"
-                inputFormat="DD/MM/YYYY"
-                value={expiryDate}
-                onChange={(value) => setExpiryDate(value)}
-                variant="standard"
-                renderInput={(params) => <Input {...params} />}
-              />
-            </LocalizationProvider>
-            
+          <p>You have selected {selected.length} items</p>
+          <Buttons>
+                  
             <StyledButton        
               variant="outlined"
               size="small"
               endIcon={<RestaurantIcon />} 
               onClick={e=>handleDelete(e, false)}>
-                  This item is used
+              Mark items used
             </StyledButton>
             <StyledButton        
               variant="outlined"
               size="small"
               endIcon={<DeleteIcon />} 
               onClick={e=>handleDelete(e, true)}>
-                  Add to waste
+              Add items to waste
             </StyledButton>
-            
-
-            <Actions>
-              <Button onClick={() => setOpen(false)}>Cancel</Button>
-              <Button type="submit" onClick={() => setOpen(false)}>
+                  
+          </Buttons>
+          <Actions>
+            <ActionButton onClick={() => setOpen(false)}>Cancel</ActionButton>
+            <ActionButton type="submit" onClick={() => setOpen(false)}>
                 Save
-              </Button>
-            </Actions>
-          </Form>
+            </ActionButton>
+          </Actions>
+
         </DialogContent>
-      </Dialog></>}
+      </Dialog>
     </div>
   );
 };
 
-export default EditItemModal;
+export default MassActionModal;
 
 const EditButton = styled(IconButton)({
   color: "#626E60",
@@ -120,26 +83,32 @@ const EditButton = styled(IconButton)({
   margin: "0.5rem 0 1rem 0",
   "&:hover": {
     color: "#384036",
+    
+    background: "white",
+  },
+});
   
+export const Actions = styled(DialogActions)({
+  margin: " 1rem -1rem -1rem 0",
+  color: "#626E60",
+});
+
+export const ActionButton = styled(Button)({
+  color: "#626E60",
+  textDecoration: "none",
+  fontFamily: "Open sans",
+  fontSize: "16px",
+  "&:hover": {
+    color: "#384036",
     background: "white",
   },
 });
 
-const Form = styled("form")({
+const Buttons = styled.div({
   display: "flex",
-  flexDirection: "column",
-  maxWidth: "500px",
-  width: "100%",
+  flexDirection: "column"
 });
-
-const Input = styled(TextField)({
-  margin: "1rem 0 1rem 0",
-});
-
-const Actions = styled(DialogActions)({
-  margin: " 1rem -1rem -1rem 0",
-  color: "#626E60",
-});
+ 
 
 const StyledButton = styled(Button)({
   color: "#626E60",

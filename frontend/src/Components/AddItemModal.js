@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -14,6 +14,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import RemoveIcon from "@mui/icons-material/Remove";
+import {Actions, ActionButton} from "./MassActionModal";
 
 const AddItemModal = ({ createItem }) => {
   const [name, setName] = useState("");
@@ -90,10 +91,10 @@ const AddItemModal = ({ createItem }) => {
             </div>
 
             <Actions>
-              <Button onClick={() => setOpen(false)}>Cancel</Button>
-              <Button type="submit" onClick={() => setOpen(false)}>
+              <ActionButton onClick={() => setOpen(false)}>Cancel</ActionButton>
+              <ActionButton disabled={!name.length > 0} type="submit" onClick={() => setOpen(false)}>
                 Add item
-              </Button>
+              </ActionButton>
             </Actions>
           </Form>
         </DialogContent>
@@ -120,7 +121,6 @@ const AddButton = styled(Button)({
 const Form = styled("form")({
   display: "flex",
   flexDirection: "column",
-  maxWidth: "500px",
   width: "100%",
 });
 
@@ -132,6 +132,4 @@ const AmountButton = styled(IconButton)({
   margin: "0 0.5rem 0 0.5rem",
 });
 
-const Actions = styled(DialogActions)({
-  margin: " 1rem -1rem -1rem 0",
-});
+

@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import SelectFridge from "../Components/SelectFridge";
 import AddItemModal from "../Components/AddItemModal";
-import ProductsTable from "../Components/ProductsTable";
 import Warning from "../Components/Warning";
 import dayjs from "dayjs";
 import { Stack } from "@mui/system";
 import styled from "styled-components";
+import ItemTable from "../Components/ItemTable";
 
 const Household = () => {
   const { user } = useUserContext();
@@ -15,6 +15,7 @@ const Household = () => {
   const [fridgeId, setFridgeId] = useState(); //currently selected
   const [soonExpiring, setExpiring] = useState();
   const [expired, setExpired] = useState([]);
+  const [formattedData, setFormat] = useState([]);
 
   const url = `/api/users/${user.id}`;
   const urlItems = "/api/products";
@@ -50,24 +51,27 @@ const Household = () => {
         item.expiryDate &&
         dayjs(item.expiryDate).isBefore(dayjs().add(5, "day")) &&
         setExpiring((arr) => [...arr, item]);
-    });
+
+    })
+    setFormat(formData());
   }, [selectedFridge]);
+
 
   // CREATE NEW FRIDGE
 
   // useEffect(()=> {
-  //     async function postFridge(){
-  //         try{
-  //         const res = await axios.post('/api/fridges', {name: 'testi'}, {withCredentials: true})
-  //         console.log(res)
-  //         setReady(true)
-  //         }
-  //         catch(err){
-  //             console.log(err)
-  //         }
+  //   async function postFridge(){
+  //     try{
+  //       const res = await axios.post("/api/fridges", {name: "koti"}, {withCredentials: true});
+  //       console.log(res);
+        
   //     }
-  //     postFridge()
-  // }, [])
+  //     catch(err){
+  //       console.log(err);
+  //     }
+  //   }
+  //   postFridge();
+  // }, []);
 
   const createItem = async (newItem) => {
     try {
@@ -114,9 +118,54 @@ const Household = () => {
     }
   };
 
+  const deleteItem = async (item, foodWaste) => {
+    console.log(`${urlItems}/${item.id}`);
+    try {
+      const res = await axios.delete(`${urlItems}/${item.id}`, fridgeId, {withCredentials: true});
+      console.log(res, foodWaste);
+
+    }
+    catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
+
+  const formData = () =>{
+    let productList = [];
+    let products = selectedFridge?.products;
+
+    products?.map(item => {
+      let foundedItem = productList.find(i => {
+        return(i.name.toUpperCase() === item.name.toUpperCase() );
+      });
+
+      if (foundedItem){
+        if (!foundedItem.items.find(i=> i.id === item.id) && dayjs(item.expiryDate).isBefore(dayjs(foundedItem.expiryDate)) ){
+          foundedItem.expiryDate = item.expiryDate;
+          foundedItem.purchaseDate = item.purchaseDate;
+          foundedItem.items = foundedItem.items.concat(item);
+        } 
+        else if (!foundedItem.items.find(i=> i.id === item.id)) {
+          foundedItem.items = foundedItem.items.concat(item);
+        }
+      }
+      else{
+        let newItem = {
+          name: item.name,
+          expiryDate: item.expiryDate,
+          purchaseDate: item.purchaseDate,
+          items: [item]
+        };
+        productList = productList.concat(newItem);
+      }
+    }); 
+    return(productList);
+  };
+
   return (
     <>
-      {fridges && (
+      {fridges&& formattedData && (
         <div>
           <ButtonSection>
             <SelectFridge
@@ -140,10 +189,7 @@ const Household = () => {
               />
             )}
           </Warnings>
-          <ProductsTable
-            data={selectedFridge?.products}
-            manageItem={manageItem}
-          />
+          <ItemTable data={formattedData} manageItem={manageItem} deleteItem={deleteItem}/>
         </div>
       )}
     </>
