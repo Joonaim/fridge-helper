@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 import BackButton from "../Components/BackButton";
-import Button from "@mui/material/Button";
 
 import { useUserContext } from "../Components/UserContext";
 import { useState, useEffect } from "react";
@@ -11,15 +10,15 @@ import AddFridgeButton from "../Components/AddFridgeButton";
 import DeleteFridgeButton from "../Components/DeleteFridgeButton";
 import UseInviteButton from "../Components/UseInviteButton";
 import UsersTable from "../Components/UsersTable";
-import { Stack } from "@mui/system";
-import dayjs from "dayjs";
 import styled from "styled-components";
+import CreateInviteButton from "../Components/CreateInviteButton";
 
 const ManageHouseholds = () => {
   const { user } = useUserContext();
   const [fridges, setFridges] = useState();
   const [users, setUsers] = useState();
   const [fridgeId, setFridgeId] = useState(); //currently selected
+  const [admin, setAdmin] = useState();
 
   const url = `/api/users/${user.id}`;
   const urlFridges = "/api/fridges";
@@ -45,6 +44,7 @@ const ManageHouseholds = () => {
       if(fridgeId) {
         const res = await axios.get(urlFridges + '/' + fridgeId, { withCredentials: true });
         setUsers(res.data.fridgeUsers);
+        setAdmin(res.data.fridgeUsers.find(u => u.id === user.id).userFridge.admin)
       }
       else {
         setUsers([])
@@ -54,36 +54,11 @@ const ManageHouseholds = () => {
     }
   }
   
-  async function createInvite() {
-    const admin = users.find(u => u.id === user.id).userFridge.admin
-    if(admin === true) {
-      const code = Math.random().toString(36).slice(2,7);
-      const now = dayjs()
-      const expires = now.add(1, 'day');
-      const invite = {
-        code: code,
-        expires: expires,
-        fridgeId: fridgeId
-      }
-      console.log(JSON.stringify(invite))
-      const res = await axios
-        .post(urlInvite,
-        invite,
-        {
-          withCredentials: true,
-        })
-        .then(alert("Your invite code is " + code))
-        .catch((e) => console.log(e));
-    }
-    else { console.log("Not admin") }
-  }
-  
   useEffect(() => {
     refreshFridges();
   }, []);
 
-   useEffect(() => {
-    //console.log(fridgeId);
+  useEffect(() => {
     refreshUsers();
   }, [selectedFridge]);
 
@@ -98,6 +73,18 @@ const ManageHouseholds = () => {
       console.log(err);
     }
   }
+
+  const deleteUser = async (userId) => {
+    const res = await axios
+      .delete(urlInvite + '/' + userId + '/' + fridgeId,
+        {
+          withCredentials: true,
+        })
+        .then((res) => {
+          refreshUsers();
+        })
+        .catch((e) => console.log(e));
+  };
 
   const createFridge = async (newFridge) => {
     const res = await axios
@@ -144,15 +131,14 @@ const ManageHouseholds = () => {
             <AddFridgeButton createFridge={createFridge} />
             <DeleteFridgeButton deleteFridge={deleteFridge} name={selectedFridge?.name} />
             <UseInviteButton useInvite={useInvite} />
-            <Button onClick={() => createInvite()}>(DEBUG) CREATE INVITE</Button>
-            <Button onClick={() => refreshUsers()}>(DEBUG) REFRESH USER LIST</Button> 
+            <CreateInviteButton admin={admin} fridgeId={fridgeId} />
           </ButtonSection>
           
           <UsersTable
             userData={users}
-            
+            admin={admin}
+            deleteUser={deleteUser}
           /> 
-          { /* ^^^ manageItem={manageItem}*/ }
         </div>
       )}
     </>
@@ -160,10 +146,6 @@ const ManageHouseholds = () => {
 };
 
 export default ManageHouseholds;
-
-const Warnings = styled(Stack)`
-  padding-bottom: 16px;
-`;
 
 const ButtonSection = styled.div`
   display: block;

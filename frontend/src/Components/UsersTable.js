@@ -5,16 +5,16 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { visuallyHidden } from "@mui/utils";
 import { styled } from "@mui/system";
-import { useState, useEffect } from "react";
 import Skeleton from "@mui/material/Skeleton";
+import DeleteUserButton from "../Components/DeleteUserButton";
+import Star from '@mui/icons-material/Star';
 
 
-const UsersTable = ({userData}) => {
+const UsersTable = ({userData, admin, deleteUser}) => {
   const columns = [
-    {id:"name", numeric: false, disablePadding: true, label: "Name"},
-    {id:"admin", numeric: false, disablePadding: true, label:  "Admin"}
+    {id:"admin", numeric: false, disablePadding: true, label:  ""},
+    {id:"name", numeric: false, disablePadding: true, label: "Email"}
   ];
 
   return(
@@ -41,9 +41,12 @@ const UsersTable = ({userData}) => {
                 key={data.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
+                <IconCell 
+                  col='black' 
+                  align='center'>
+                    {data.userFridge.admin ? <Star sx={{ color: "#FFD700", margin: "0.5rem 0 1rem 0"}}/> : (admin ? <DeleteUserButton data={data} deleteUser={deleteUser}/> : null)}
+                </IconCell>
                 <ColumnCell col='black'>{data.username}</ColumnCell>
-                <ColumnCell col='black'>{String(data.userFridge.admin)}</ColumnCell>
-                { /* <ColumnCell col='black'><RemoveUserModal userId={data.userId} manageItem={manageItem}/></ColumnCell> */ }
               </TableRow>))}
           </TableBody>
         </Table>)
@@ -70,4 +73,10 @@ const LabelCell = styled(TableCell)({
   fontSize: "14px",
   padding: "0 4px 0 8px",
 });
+
+const IconCell = styled(TableCell)`
+  padding: 0;
+  width: 4rem;
+  height: 10px;
+`;
 

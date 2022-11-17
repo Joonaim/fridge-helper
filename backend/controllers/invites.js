@@ -17,4 +17,15 @@ router.post('/', async (req, res) => {
     res.json(invite)
   })
 
+router.delete('/:user/:fridge', async (req, res) => {
+    const userId = req.params.user
+    const fridgeId = req.params.fridge
+    const userFridge = await UserFridge.findOne({where:{userId: userId, fridgeId: fridgeId}})
+    if (!userFridge) return res.status(401).json({ error: 'userId or fridgeId invalid' })
+    //TODO: Check if req.session.user is admin of the fridgeId before deleting
+    await userFridge.destroy()
+    res.status(204).end()
+  }
+)
+
 module.exports = router
