@@ -80,7 +80,7 @@ export default MassActionModal;
 const EditButton = styled(IconButton)({
   color: "#626E60",
   textDecoration: "none",
-  margin: "0.5rem 0 1rem 0",
+  margin: "auto 1rem",
   "&:hover": {
     color: "#384036",
     

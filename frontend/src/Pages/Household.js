@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { Stack } from "@mui/system";
 import styled from "styled-components";
 import ItemTable from "../Components/ItemTable";
+import breakpoint from '../Components/breakpoints';
 
 const Household = () => {
   const { user } = useUserContext();
@@ -188,10 +189,16 @@ const Household = () => {
 export default Household;
 
 const Warnings = styled(Stack)`
-  padding-bottom: 16px;
+  padding: 8px 16px;
+  @media only screen and ${breakpoint.device.sm}{
+    padding: 16px 32px
+  }
 `;
 
 const ButtonSection = styled.div`
   display: block;
-  padding: 8px 0 16px 0;
+  padding: 8px 16px 16px 16px;
+  @media only screen and ${breakpoint.device.sm}{
+    padding: 16px 32px
+  }
 `;

@@ -1,12 +1,10 @@
 import * as React from "react";
 import {useState, useEffect} from "react";
 import { alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
@@ -21,8 +19,8 @@ import Collapse from "@mui/material/Collapse";
 import EditItemModal from "./EditItemModal";
 import MassActionModal from "./MassActionModal";
 import styled from "styled-components";
-import { up } from "styled-breakpoints";
 import Skeleton from "@mui/material/Skeleton";
+import breakpoint from '../Components/breakpoints';
 //import { theme } from "../App";
 
 
@@ -57,11 +55,11 @@ const EnhancedTableHead = (props)=> {
     };
 
   return (
-    <TableHead>
+    <Header>
       <TableRow>
         <IconCell />
         {headCells.map((headCell) => (
-          <TableCell
+          <HeaderCell
             key={headCell.id}
             align='left'
             padding={headCell.disablePadding ? "none" : "normal"}
@@ -74,11 +72,11 @@ const EnhancedTableHead = (props)=> {
             >
               {headCell.label}
             </TableSortLabel>
-          </TableCell>
+          </HeaderCell>
         ))}
         <TableCell/>
       </TableRow>
-    </TableHead>
+    </Header>
   );
 };
 
@@ -87,8 +85,6 @@ const EnhancedTableToolbar = ({numSelected, selected, massMode, changeMassMode})
   return (
     <Toolbar
       sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
         ...(massMode && {
           bgcolor: (theme) =>
             alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
@@ -96,9 +92,9 @@ const EnhancedTableToolbar = ({numSelected, selected, massMode, changeMassMode})
       }}
     >
       <ToolBarContainer>
-        <Button onClick={changeMassMode}>Mass mode</Button>
+        <ActionButton onClick={changeMassMode}>Mass mode</ActionButton>
         {massMode && numSelected > 0 && <MassModal selected = {selected}/> } 
-        {numSelected > 0 && <SelectedText><p>{numSelected} items selected</p></SelectedText>}
+        {numSelected > 0 && <SelectedText>{numSelected} items selected</SelectedText>}
       </ToolBarContainer>    
     </Toolbar>
   );
@@ -142,7 +138,7 @@ const ExpandingRow = ({ row, handleClick, isSelected, manageItem, deleteItem, ma
         <HiddenCell colSpan={6} >             
           <Collapse in={open} timeout="auto" unmountOnExit> 
             <Table> 
-              <TableBody>
+              <TableBody padding={0}>
                 {row.items.map((subRow) => {
                   const isExpired = dayjs(subRow.expiryDate).isBefore(dayjs());
                   const isExpiring = dayjs(subRow.expiryDate).isAfter(dayjs()) && dayjs(row.expiryDate).isBefore(dayjs().add(5, "day"));
@@ -274,8 +270,8 @@ const ItemTable = ({data, manageItem, deleteItem}) => {
   return (<>
     {data ?
       <>
-        <EnhancedTableToolbar numSelected={selected.length} massMode={massMode} changeMassMode={changeMassMode} deleteItem = {deleteItem} selected={selected} />
-        <TableContainer>
+        <TableContainer>        
+          <EnhancedTableToolbar numSelected={selected.length} massMode={massMode} changeMassMode={changeMassMode} deleteItem = {deleteItem} selected={selected} />
           <Table
             aria-labelledby="tableTitle"
             size='small'
@@ -369,6 +365,28 @@ const ItemTable = ({data, manageItem, deleteItem}) => {
 
 export default ItemTable;
 
+const TableContainer = styled.div`
+@media only screen and ${breakpoint.device.sm}{
+  margin: 16px 32px;
+  border: 1px solid #D2D2D2;
+}`
+
+
+const Header = styled(TableHead)`
+
+margin: 1rem;
+`
+;
+
+const HeaderCell = styled(TableCell)`
+padding: 8px 0;
+@media only screen and ${breakpoint.device.sm}{
+font-size: 20px;
+
+}
+`
+;
+
 const ExpandButton = styled(IconButton)`
 margin: 10px 0 10px 0`;
 
@@ -378,20 +396,13 @@ const IconCell = styled(TableCell)`
   height: 10px
 `;
 
-const IconCellDesktop =styled(TableCell)`
-display: none;
-${up("sm")} {
-  display: initial;
-  }
-`;
-
 const Row = styled(TableRow)`
 height: 40px`;
 
 const Cell = styled(TableCell)((props) => ({
   color: props.col || "black",
   padding: "0",
-  height:" 20px",
+  height:"60px",
 }));
 
 
@@ -413,14 +424,30 @@ border-bottom: none
 
 const ToolBarContainer = styled.div`
 width:100%;
+
 display: flex;
 flex-direction: row-reverse;
+padding: 0.5rem 1rem;
+
+@media only screen and ${breakpoint.device.sm}{
+font-size: 20px;
+margin: 16px 0;
+}
 `;
 
 const SelectedText = styled.div`
 flex-grow: 3;
+padding:0;
 `;
 
 const MassModal = styled(MassActionModal)`
-flex:grow:1
 `;
+
+const ActionButton = styled(Button)`
+color: #626E60;
+fontSize: 16px;
+&:hover: {
+  color: #384036;
+
+}
+`
