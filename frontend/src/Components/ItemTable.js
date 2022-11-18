@@ -330,7 +330,7 @@ const ItemTable = ({data, manageItem, deleteItem}) => {
                         {!massMode &&
                         <Cell col='black'
                           align="left">
-                          <EditItemModal item={data} manageItem={manageItem} deleteItem={deleteItem}/>
+                          <EditItemModal item={row.items[0]} manageItem={manageItem} deleteItem={deleteItem}/>
                         </Cell>
                         }
                       </Row> :

@@ -29,7 +29,7 @@ const SelectFridge = ({ fridges, currentFridge, setCurrentFridge }) => {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <>
+    <>{fridges?.length > 0 &&
       <HouseholdButton
         aria-describedby={id}
         variant="contained"
@@ -42,7 +42,7 @@ const SelectFridge = ({ fridges, currentFridge, setCurrentFridge }) => {
         ) : (
           <ExpandLessIcon fontSize="medium" />
         )}
-      </HouseholdButton>
+      </HouseholdButton>}
       <PopoverMenu
         id={id}
         open={open}

@@ -56,23 +56,6 @@ const Household = () => {
     setFormat(formData());
   }, [selectedFridge]);
 
-
-  // CREATE NEW FRIDGE
-
-  // useEffect(()=> {
-  //   async function postFridge(){
-  //     try{
-  //       const res = await axios.post("/api/fridges", {name: "koti"}, {withCredentials: true});
-  //       console.log(res);
-        
-  //     }
-  //     catch(err){
-  //       console.log(err);
-  //     }
-  //   }
-  //   postFridge();
-  // }, []);
-
   const createItem = async (newItem) => {
     try {
       const res = await axios.post(
@@ -165,7 +148,12 @@ const Household = () => {
 
   return (
     <>
-      {fridges&& formattedData && (
+    {fridges?.length < 1 ? <div>
+      <p>
+        To start using fridge helper, 
+        <a href="/managehouseholds">{' '}create your first fridge or join existing one</a></p></div>
+        :
+      (fridges&& formattedData && (
         <div>
           <ButtonSection>
             <SelectFridge
@@ -191,8 +179,9 @@ const Household = () => {
           </Warnings>
           <ItemTable data={formattedData} manageItem={manageItem} deleteItem={deleteItem}/>
         </div>
-      )}
-    </>
+      ))
+    } 
+  </>
   );
 };
 
