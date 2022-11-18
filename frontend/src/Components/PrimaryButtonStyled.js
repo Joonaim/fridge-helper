@@ -6,7 +6,7 @@ const PrimaryButtonStyled = styled(Button)({
   border: "1px solid #626E60",
   textDecoration: "none",
   fontFamily: "Open sans",
-  fontSize: "18px",
+  fontSize: "16px",
   "&:hover": {
     color: "#384036",
     border: "1px solid #384036",

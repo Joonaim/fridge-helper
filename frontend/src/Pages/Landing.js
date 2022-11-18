@@ -1,10 +1,12 @@
 import React from "react";
-import { BottomNavigation, Box, Typography, Grid } from "@mui/material";
+import {Box, Typography, Grid } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 
 import Login from "../Components/LoginModal";
 import Register from "../Components/RegisterModal";
 import PrimaryButtonStyled from "../Components/PrimaryButtonStyled";
+import styled from "styled-components";
+import breakpoint from '../Components/breakpoints';
 
 export default function Landing() {
   const [loginOpen, setLoginOpen] = React.useState(false);
@@ -41,7 +43,7 @@ export default function Landing() {
       index: 2,
       name: "esimerkki2",
       media:
-        "https://s3-alpha-sig.figma.com/img/07db/e0bd/d7e3918e89a97bf33189f6c3a35b9094?Expires=1667174400&Signature=Shmsd7UvHCYoJLujOAeqUpJm3ZVuPlLag1R95ZyYXaJL7wwoLT-SSIN0AR4757G-dcHajsCz1uIfIS3Y16Q2m7yaKmg36mN-yPddpxyabY73BSyY-wCeAF8EHo8kxQvEw3GXJnraOy5wAia-9pJUyWJUgSQPr2Mwgy6l1yg53k7DFs3XwccH5flrd-~sEKJyA~Fq4ZkmkYCe17wnWORz~Un5YXncnhQ1qtjincCW~5oU4BlJWP3TWSE13GkyWr9e-OAIwYQSV2zK6cIuDkY-7dh3rKoDpw4C487K6TIOD7Ge3e22QOMP-QixLkW3e5K1MhCMQ0OFPgKr68uULOd1mA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+        "",
       bgcolor: "#626E60",
       text: "From the household menu you can easily see and manage the contents of your fridge.",
     },
@@ -49,19 +51,16 @@ export default function Landing() {
 
   return (
     <div>
-      <Typography align="center" variant="h4">
-        {" "}
-        FRIDGE HELPER{" "}
-      </Typography>
-      <Typography align="center" variant="h6">
-        {" "}
-        Helps You To Organize Your Fridge!{" "}
-      </Typography>
-
-      <Carousel>
+      <TitleContainer>
+      <Title> FRIDGE HELPER</Title>
+      <Subtitle >
+        Helps You To Organize Your Fridge!
+      </Subtitle>
+</TitleContainer>
+      <Slider>
         {items.map((item) => {
           return (
-            <Grid
+            <SliderGrid
               container
               direction="column"
               columns={1}
@@ -70,7 +69,7 @@ export default function Landing() {
               sx={{ backgroundColor: item.bgcolor }}
               key={item.index}
             >
-              <Box
+              <Image
                 component="img"
                 sx={{
                   maxHeight: 400,
@@ -87,10 +86,10 @@ export default function Landing() {
               >
                 {item.text}
               </Typography>
-            </Grid>
+            </SliderGrid>
           );
         })}
-      </Carousel>
+      </Slider>
 
       <Login
         loginOpen={loginOpen}
@@ -103,17 +102,80 @@ export default function Landing() {
         changeToLogin={handleOpenLogin}
       />
 
-      <BottomNavigation>
+      <Footer>
         <PrimaryButtonStyled variant="outlined" onClick={handleOpenLogin}>
           SIGN IN
         </PrimaryButtonStyled>
-
         <Typography sx={{ pl: 3, pr: 3, mt: 2 }}>OR</Typography>
-
         <PrimaryButtonStyled variant="outlined" onClick={handleOpenRegister}>
           CREATE ACCOUNT
         </PrimaryButtonStyled>
-      </BottomNavigation>
+      </Footer>
     </div>
   );
 }
+
+const TitleContainer = styled.div`
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+align-items: center;
+text-align: center;
+height: 10vh;
+@media only screen and ${breakpoint.device.sm}{
+  padding-top: 3rem;
+  margin-top: 1rem;
+}
+`
+
+const Title = styled.h1`
+font-family: Open Sans;
+font-style: normal;
+font-weight: 600;
+font-size: 24px;
+margin: 0;
+line-height: 36px;
+letter-spacing: 1.25px;
+@media only screen and ${breakpoint.device.sm}{
+  font-size: 36px
+}
+`
+
+const Subtitle = styled.h3`
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 36px;
+  margin: 0;
+  letter-spacing: 0.25px;
+`
+
+const Slider = styled(Carousel)`
+  width: 100%;
+  height: 70vh;
+  margin-bottom: 1rem;
+`
+
+const SliderGrid = styled(Grid)`
+  height: 70vh
+`
+
+const Image = styled(Box)`
+  height: 50vh
+`
+
+const Footer = styled.div`
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  padding-bottom: 1rem;
+  @media only screen and ${breakpoint.device.sm}{
+    margin-top: 3rem;
+  }
+`
+
