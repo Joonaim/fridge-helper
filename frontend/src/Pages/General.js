@@ -116,7 +116,7 @@ const General = () => {
   });
 
   return (
-    <>
+    <div style={{ padding: "0 12px" }}>
       <Link to="/settings" style={{ textDecoration: "none" }}>
         <BackButton />
       </Link>
@@ -211,7 +211,7 @@ const General = () => {
           Change Username
         </PrimaryButtonStyled>
       </Stack>
-    </>
+    </div>
   );
 };
 
