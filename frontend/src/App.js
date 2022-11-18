@@ -9,7 +9,7 @@ import Settings from "./Pages/Settings";
 import General from "./Pages/General";
 import ManageHouseholds from "./Pages/ManageHouseholds";
 import Terms from "./Pages/Terms";
-import Faq from "./Pages/Faq";
+import Faq from "./Pages/FAQ";
 
 function App() {
   return (

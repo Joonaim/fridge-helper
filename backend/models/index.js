@@ -4,6 +4,10 @@ const User = require('./user')
 const UserFridge = require('./userFridge')
 const WasteProduct = require('./wasteProduct')
 
+const BaseList = require('./baseList')
+const BaseListProduct = require('./baseListProduct')
+const ListProduct = require('./listProduct')
+
 Fridge.hasMany(Product, { onDelete: 'CASCADE', hooks: true })
 Product.belongsTo(Fridge)
 
@@ -13,10 +17,24 @@ WasteProduct.belongsTo(Fridge)
 User.belongsToMany(Fridge, { through: UserFridge, as: 'userFridges' })
 Fridge.belongsToMany(User, { through: UserFridge, as: 'fridgeUsers' })
 
+BaseList.belongsTo(Fridge)
+BaseListProduct.belongsTo(BaseList, { onDelete: 'CASCADE' })
+ListProduct.belongsTo(Fridge)
+ListProduct.belongsTo(User)
+
+UserFridge.hasMany(BaseList, { foreignKey: 'fridgeId', sourceKey: 'fridgeId' })
+Fridge.hasMany(BaseList)
+Fridge.hasMany(ListProduct, { as: 'PersonalShoppingList' })
+Fridge.hasMany(ListProduct, { as: 'SharedShoppingList' })
+BaseList.hasMany(BaseListProduct)
+
 module.exports = {
   Product,
   Fridge,
   User,
   UserFridge,
-  WasteProduct
+  WasteProduct,
+  BaseList,
+  BaseListProduct,
+  ListProduct
 }

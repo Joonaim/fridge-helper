@@ -3,23 +3,10 @@ const router = require('express').Router()
 const { Op } = require('sequelize')
 const sequelize = require('sequelize')
 
-const { WasteProduct, UserFridge } = require('../models')
+const { WasteProduct } = require('../models')
+const middleware = require('../utils/middleware')
 
-const checkUserBelongsToFridge = async (req, res, next) => {
-  const user = await UserFridge.findOne({
-    where: {
-      [Op.and]: [{ fridgeId: req.params.id }, { userId: req.session.user.id }]
-    }
-  })
-
-  if (!user) {
-    return res.status(401).json({ error: 'Operation not permitted' }).send()
-  } else {
-    next()
-  }
-}
-
-router.get('/:year/:id', checkUserBelongsToFridge, async (req, res) => {
+router.get('/:year/:id', middleware.checkUserBelongsToFridge, async (req, res) => {
   if (req.params.id && req.params.year) {
     const wastePerMonth = await WasteProduct.findAll({
       attributes: [
