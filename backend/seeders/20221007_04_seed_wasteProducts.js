@@ -13,4 +13,3 @@ module.exports = {
     await queryInterface.bulkDelete('waste_products', null, {})
   }
 }
-

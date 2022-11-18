@@ -3,6 +3,7 @@ const Fridge = require('./fridge')
 const User = require('./user')
 const UserFridge = require('./userFridge')
 const WasteProduct = require('./wasteProduct')
+const Invite = require('./invite')
 
 const BaseList = require('./baseList')
 const BaseListProduct = require('./baseListProduct')
@@ -27,6 +28,8 @@ Fridge.hasMany(BaseList)
 Fridge.hasMany(ListProduct, { as: 'PersonalShoppingList' })
 Fridge.hasMany(ListProduct, { as: 'SharedShoppingList' })
 BaseList.hasMany(BaseListProduct)
+Fridge.hasMany(Invite, { onDelete: 'CASCADE', hooks: true })
+Invite.belongsTo(Fridge)
 
 module.exports = {
   Product,
@@ -36,5 +39,6 @@ module.exports = {
   WasteProduct,
   BaseList,
   BaseListProduct,
-  ListProduct
+  ListProduct,
+  Invite
 }

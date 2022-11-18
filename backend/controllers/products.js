@@ -43,7 +43,6 @@ router.put('/:id', checkUserPermission, productFindById, async (req, res) => {
   req.product.name = req.body.name
   req.product.purchaseDate = req.body.purchaseDate
   req.product.expiryDate = req.body.expiryDate
-  req.product.amount = req.body.amount
   await req.product.save()
   res.status(202).json(req.product)
 })

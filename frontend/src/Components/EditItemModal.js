@@ -16,17 +16,18 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import RemoveIcon from "@mui/icons-material/Remove";
 import EditIcon from "@mui/icons-material/Edit";
+import AddButton from "./AddItemModal";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const EditItemModal = ({ item, manageItem }) => {
-
+const EditItemModal = ({ item, manageItem, deleteItem }) => {
   const [name, setName] = useState(item.name);
   const [purchaseDate, setPurchaseDate] = useState(item.purchaseDate);
   const [expiryDate, setExpiryDate] = useState(item.expiryDate);
   const [numberOfProducts, setNumber] = useState(item.amount);
   const [open, setOpen] = useState(false);
 
-
-  const editItem = async (event) => {
+  const editItem = (event) => {
     event.preventDefault();
     manageItem({
       id: item.id,
@@ -37,6 +38,10 @@ const EditItemModal = ({ item, manageItem }) => {
     });
   };
 
+  const handleDelete = (event) =>{
+    event.preventDefault();
+    deleteItem(item, true);
+  };
 
   return (
     <div>{item &&<>
@@ -77,23 +82,22 @@ const EditItemModal = ({ item, manageItem }) => {
                 renderInput={(params) => <Input {...params} />}
               />
             </LocalizationProvider>
-            <div>
-              Amount:{" "}
-              <AmountButton
-                type="button"
-                disabled={numberOfProducts < 2}
-                onClick={() => setNumber(numberOfProducts - 1)}
-              >
-                <RemoveIcon />
-              </AmountButton>
-              {numberOfProducts}
-              <AmountButton
-                type="button"
-                onClick={() => setNumber(numberOfProducts + 1)}
-              >
-                <AddIcon />
-              </AmountButton>
-            </div>
+            
+            <StyledButton        
+              variant="outlined"
+              size="small"
+              endIcon={<RestaurantIcon />} 
+              onClick={e=>handleDelete(e, false)}>
+                  This item is used
+            </StyledButton>
+            <StyledButton        
+              variant="outlined"
+              size="small"
+              endIcon={<DeleteIcon />} 
+              onClick={e=>handleDelete(e, true)}>
+                  Add to waste
+            </StyledButton>
+            
 
             <Actions>
               <Button onClick={() => setOpen(false)}>Cancel</Button>
@@ -132,11 +136,21 @@ const Input = styled(TextField)({
   margin: "1rem 0 1rem 0",
 });
 
-const AmountButton = styled(IconButton)({
-  margin: "0 0.5rem 0 0.5rem",
-});
-
 const Actions = styled(DialogActions)({
   margin: " 1rem -1rem -1rem 0",
   color: "#626E60",
+});
+
+const StyledButton = styled(Button)({
+  color: "#626E60",
+  border: "1px solid #626E60",
+  textDecoration: "none",
+  fontFamily: "Open sans",
+  fontSize: "18px",
+  marginBottom: "16px",
+  "&:hover": {
+    color: "#384036",
+    border: "1px solid #384036",
+    background: "white",
+  },
 });

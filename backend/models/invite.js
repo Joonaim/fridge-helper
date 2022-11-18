@@ -2,34 +2,32 @@ const { Model, DataTypes } = require('sequelize')
 
 const { sequelize } = require('../utils/db')
 
-class Product extends Model {}
+class Invite extends Model {}
 
-Product.init(
+Invite.init(
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    name: {
+    code: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    purchaseDate: {
-      type: DataTypes.DATE,
+      unique: true,
       allowNull: false,
-      defaultValue: new Date()
     },
-    expiryDate: {
-      type: DataTypes.DATE
+    expires: {
+      type: DataTypes.DATE,
+      allowNull: false
     }
   },
   {
     sequelize,
     underscored: true,
     timestamps: false,
-    modelName: 'product'
+    modelName: 'invite'
   }
 )
 
-module.exports = Product
+module.exports = Invite
+

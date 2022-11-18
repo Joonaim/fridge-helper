@@ -12,10 +12,6 @@ const OpenRoutes = () => {
             ? <Navigate to='/household' replace/>
             : 
             <>
-                {
-                    //For debugging!
-                    <h1>User Info: {JSON.stringify(user)}</h1>
-                }
                 <Outlet />
             </>
     )

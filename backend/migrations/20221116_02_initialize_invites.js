@@ -2,24 +2,19 @@ const { DataTypes } = require('sequelize')
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
-    await queryInterface.createTable('waste_products', {
+    await queryInterface.createTable('invites', {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      name: {
+      code: {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false
       },
-      date: {
+      expires: {
         type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: new Date()
-      },
-      amount: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
         allowNull: false
       },
       fridge_id: {
@@ -30,6 +25,6 @@ module.exports = {
     })
   },
   down: async ({ context: queryInterface }) => {
-    await queryInterface.dropTable('waste_products')
+    await queryInterface.dropTable('invites')
   }
 }

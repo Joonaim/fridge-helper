@@ -30,7 +30,7 @@ export default function ScrollDialog() {
 
   return (
     <div>
-      <Button onClick={handleClickOpen("paper")}>
+      <Button onClick={handleClickOpen("paper")} style={{ color: "#000000" }}>
         Accept terms and condtions
       </Button>
       <Dialog

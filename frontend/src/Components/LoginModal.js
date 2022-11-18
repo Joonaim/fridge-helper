@@ -216,6 +216,7 @@ export default function Login({
               variant="body1"
               onClick={handleChangeToRegister}
               underline="always"
+              style={{ color: "#626E60" }}
             >
               Register
             </Link>
@@ -223,10 +224,19 @@ export default function Login({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={allowHandleClose} disabled={loading}>
+        <Button
+          onClick={allowHandleClose}
+          disabled={loading}
+          style={{ color: "#626E60" }}
+        >
           Cancel
         </Button>
-        <Button form="loginForm" type="submit" disabled={loading}>
+        <Button
+          form="loginForm"
+          type="submit"
+          disabled={loading}
+          style={{ color: "#626E60" }}
+        >
           Sign in
         </Button>
       </DialogActions>
