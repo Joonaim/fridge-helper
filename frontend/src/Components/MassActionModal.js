@@ -22,12 +22,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 const MassActionModal = ({selected, deleteItem, isfoodWaste}) => {
   const [open, setOpen] = useState(false);
-  const handleDelete = (event) =>{
+  const handleDelete = (event, foodWaste) =>{
     event.preventDefault();
-    deleteItem(selected)
+    deleteItem(selected, foodWaste)
+    setOpen(false);
   };
 
-  console.log(selected);
+  //console.log(selected);
   
   return(
     <div>

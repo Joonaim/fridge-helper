@@ -56,14 +56,12 @@ router.delete('/', checkUserPermission, async (req, res) => {
         if (result) {
           res.status(204).end()
         } else {
-          console.log('=???==')
           console.log(result)
           res.status(400).json({ error: 'Bad request' }).send()
         }
       })
 
   } else {
-    console.log('=???')
     res.status(400).json({ error: 'Bad request' }).send()
   }
 

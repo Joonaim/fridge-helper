@@ -6,6 +6,26 @@ const sequelize = require('sequelize')
 const { WasteProduct } = require('../models')
 const middleware = require('../utils/middleware')
 
+router.post('/products/' , async (req, res) => {
+  console.log(req.body)
+
+  const newWasteProduct = await WasteProduct.bulkCreate(req.body.products)
+    .catch((error) => {
+      console.log(error)
+    })
+    .then((result) => {
+      return result
+    })
+  if (newWasteProduct){
+    console.log(JSON.stringify(newWasteProduct))
+    res.status(201).json(newWasteProduct).send()
+  }
+  else {
+    res.status(400).json({ error: 'Bad request' }).send()
+  }
+
+})
+
 router.get('/:year/:id', middleware.checkUserBelongsToFridge, async (req, res) => {
   if (req.params.id && req.params.year) {
     const wastePerMonth = await WasteProduct.findAll({
@@ -126,33 +146,34 @@ router.get('/:year/:id', middleware.checkUserBelongsToFridge, async (req, res) =
       wastePerMonth &&
       fridgeWaste &&
       othersWaste &&
-      numberOfOtherFridges &&
       mostOftenExpiring
     ) {
       const fridgeWasteTot = fridgeWaste[0].total_amount
-      const othersWasteTot = othersWaste[0].total_amount / numberOfOtherFridges
+      const othersWasteTot = numberOfOtherFridges > 0 ? othersWaste[0].total_amount / numberOfOtherFridges : 0
 
       const mostOftenExpiringParsed = mostOftenExpiring.map((item) => ({ ...item, total_amount: (item.total_amount / 12).toFixed(2) }))
       const fourMostOftenExpiring = mostOftenExpiringParsed.slice(0, 4)
 
       if (fridgeWasteTot > othersWasteTot) {
-        const percent = parseInt(
-          ((fridgeWasteTot - othersWasteTot) / othersWasteTot) * 100
+        const percent = othersWasteTot > 0 ? ((fridgeWasteTot - othersWasteTot) / othersWasteTot) * 100 : 100
+        const percentFormatted = parseInt(
+          percent
         )
         res.status(200).json({
           wastePerMonth: wastePerMonth,
           moreThanOthers: true,
-          MTOPercent: percent,
+          MTOPercent: percentFormatted,
           mostOftenExpiring: fourMostOftenExpiring
         })
       } else {
-        const percent = parseInt(
-          ((othersWasteTot - fridgeWasteTot) / othersWasteTot) * 100
+        const percent = othersWasteTot > 0 ? ((othersWasteTot - fridgeWasteTot) / othersWasteTot) * 100 : 100
+        const percentFormatted = parseInt(
+          percent
         )
         res.status(200).json({
           wastePerMonth: wastePerMonth,
           moreThanOthers: false,
-          MTOPercent: percent,
+          MTOPercent: percentFormatted,
           mostOftenExpiring: fourMostOftenExpiring
         })
       }

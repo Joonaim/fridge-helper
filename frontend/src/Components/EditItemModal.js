@@ -38,10 +38,10 @@ const EditItemModal = ({ item, manageItem, deleteItem }) => {
     });
   };
 
-  const handleDelete = (event) =>{
+  const handleDelete = (event, foodWaste) =>{
     event.preventDefault();
-    //deleteItem(item, true);
-    deleteItem([item.id])
+    deleteItem([item.id], foodWaste)
+    setOpen(false)
   };
 
   return (

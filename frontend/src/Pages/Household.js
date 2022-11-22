@@ -102,14 +102,29 @@ const Household = () => {
     }
   };
 
-  const deleteItem = async (item, foodWaste) => {
-    console.log(`${urlItems}/${item.id}`);
-
-    console.log(item)
+  const deleteItem = async (items, foodWaste) => {
+    //console.log(`${urlItems}/${item.id}`);
+    //console.log(items)
     
     try {
+      
+      if (foodWaste) {
+        const foodWasteProducts = fridges.find((fridge) => fridge.id === fridgeId).products.filter((product) => items.indexOf(product.id) !== -1)
+        var fWProductsFormatted = []
+        foodWasteProducts.reduce((result, product) => {
+          if (!result[product.name]) {
+            result[product.name] = { name: product.name, amount: 0, fridgeId: fridgeId }
+            fWProductsFormatted.push(result[product.name])
+          }
+          result[product.name].amount += 1
+          return result
+        }, {})
 
-      await axios.delete(`${urlItems}`, {data: {fridgeId: fridgeId, itemIds: item}}, {withCredentials: true})
+        await axios.post('/api/foodwaste/products', {products: fWProductsFormatted, fridgeId: fridgeId}, {withCredentials:true})
+
+      }
+
+      await axios.delete(`${urlItems}`, {data: {fridgeId: fridgeId, itemIds: items}}, {withCredentials: true})
         .catch((err) => {
             console.log(err)
             return
@@ -120,15 +135,14 @@ const Household = () => {
                     prev.map((f) =>
                     f.id !== fridgeId
                         ? f
-                        : { ...f, products: f.products.filter((product) => item.indexOf(product.id) === -1 ) }
+                        : { ...f, products: f.products.filter((product) => items.indexOf(product.id) === -1 ) }
                     )
                 )
 
             }
         })
 
-    }
-    catch (error) {
+    }catch (error) {
       console.log(error.response.data);
     }
     
