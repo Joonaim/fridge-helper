@@ -39,6 +39,36 @@ router.delete(
   }
 )
 
+router.delete('/', checkUserPermission, async (req, res) => {
+
+  if (req.body.fridgeId && req.body.itemIds?.length > 0) {
+
+    await Product.destroy({ where: {
+      [Op.and]: [
+        { id: req.body.itemIds },
+        { fridgeId: req.body.fridgeId }
+      ]
+    } })
+      .catch((err) => {
+        console.log(err)
+        return
+      }).then((result) => {
+        if (result) {
+          res.status(204).end()
+        } else {
+          console.log('=???==')
+          console.log(result)
+          res.status(400).json({ error: 'Bad request' }).send()
+        }
+      })
+
+  } else {
+    console.log('=???')
+    res.status(400).json({ error: 'Bad request' }).send()
+  }
+
+})
+
 router.put('/:id', checkUserPermission, productFindById, async (req, res) => {
   req.product.name = req.body.name
   req.product.purchaseDate = req.body.purchaseDate

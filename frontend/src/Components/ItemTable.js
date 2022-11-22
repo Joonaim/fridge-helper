@@ -81,7 +81,7 @@ const EnhancedTableHead = (props)=> {
 };
 
 
-const EnhancedTableToolbar = ({numSelected, selected, massMode, changeMassMode})=> {
+const EnhancedTableToolbar = ({numSelected, deleteItem, selected, massMode, changeMassMode})=> {
   return (
     <Toolbar
       sx={{
@@ -93,7 +93,7 @@ const EnhancedTableToolbar = ({numSelected, selected, massMode, changeMassMode})
     >
       <ToolBarContainer>
         <ActionButton onClick={changeMassMode}>Mass mode</ActionButton>
-        {massMode && numSelected > 0 && <MassModal selected = {selected}/> } 
+        {massMode && numSelected > 0 && <MassModal deleteItem={deleteItem} selected = {selected}/> } 
         {numSelected > 0 && <SelectedText>{numSelected} items selected</SelectedText>}
       </ToolBarContainer>    
     </Toolbar>

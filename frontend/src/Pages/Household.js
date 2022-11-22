@@ -104,14 +104,34 @@ const Household = () => {
 
   const deleteItem = async (item, foodWaste) => {
     console.log(`${urlItems}/${item.id}`);
+
+    console.log(item)
+    
     try {
-      const res = await axios.delete(`${urlItems}/${item.id}`, fridgeId, {withCredentials: true});
-      console.log(res, foodWaste);
+
+      await axios.delete(`${urlItems}`, {data: {fridgeId: fridgeId, itemIds: item}}, {withCredentials: true})
+        .catch((err) => {
+            console.log(err)
+            return
+        }).then((response) => {
+            if (response?.status == 204) {
+                
+                setFridges((prev) =>
+                    prev.map((f) =>
+                    f.id !== fridgeId
+                        ? f
+                        : { ...f, products: f.products.filter((product) => item.indexOf(product.id) === -1 ) }
+                    )
+                )
+
+            }
+        })
 
     }
     catch (error) {
       console.log(error.response.data);
     }
+    
   };
 
 

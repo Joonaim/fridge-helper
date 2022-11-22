@@ -40,7 +40,8 @@ const EditItemModal = ({ item, manageItem, deleteItem }) => {
 
   const handleDelete = (event) =>{
     event.preventDefault();
-    deleteItem(item, true);
+    //deleteItem(item, true);
+    deleteItem([item.id])
   };
 
   return (

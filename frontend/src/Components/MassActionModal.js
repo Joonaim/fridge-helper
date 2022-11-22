@@ -24,8 +24,7 @@ const MassActionModal = ({selected, deleteItem, isfoodWaste}) => {
   const [open, setOpen] = useState(false);
   const handleDelete = (event) =>{
     event.preventDefault();
-    selected.map(item => 
-      deleteItem(item.id, isfoodWaste));
+    deleteItem(selected)
   };
 
   console.log(selected);
