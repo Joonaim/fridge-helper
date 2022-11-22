@@ -1,12 +1,12 @@
 import React from "react";
-import {Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 
 import Login from "../Components/LoginModal";
 import Register from "../Components/RegisterModal";
 import PrimaryButtonStyled from "../Components/PrimaryButtonStyled";
 import styled from "styled-components";
-import breakpoint from '../Components/breakpoints';
+import breakpoint from "../Components/breakpoints";
 
 export default function Landing() {
   const [loginOpen, setLoginOpen] = React.useState(false);
@@ -34,16 +34,14 @@ export default function Landing() {
     {
       index: 1,
       name: "esimerkki1",
-      media:
-        "https://www.lifepng.com/wp-content/uploads/2020/11/Vintage-Refrigerator-png-hd.png",
+      media: "http://localhost:3000/fridge1.png",
       bgcolor: "#945D60",
       text: "It's true, Fridge helper will help you save money and nature. Less food waste, less headache. Amazing. Get started today.",
     },
     {
       index: 2,
       name: "esimerkki2",
-      media:
-        "",
+      media: "http://localhost:3000/fridge2.png",
       bgcolor: "#626E60",
       text: "From the household menu you can easily see and manage the contents of your fridge.",
     },
@@ -52,11 +50,9 @@ export default function Landing() {
   return (
     <div>
       <TitleContainer>
-      <Title> FRIDGE HELPER</Title>
-      <Subtitle >
-        Helps You To Organize Your Fridge!
-      </Subtitle>
-</TitleContainer>
+        <Title> FRIDGE HELPER</Title>
+        <Subtitle>Helps You To Organize Your Fridge!</Subtitle>
+      </TitleContainer>
       <Slider>
         {items.map((item) => {
           return (
@@ -71,6 +67,7 @@ export default function Landing() {
             >
               <Image
                 component="img"
+                alt="picture of fridge"
                 sx={{
                   maxHeight: 400,
                 }}
@@ -119,27 +116,27 @@ const TitleContainer = styled.div`
   margin: 1rem;
   display: flex;
   flex-direction: column;
-align-items: center;
-text-align: center;
-height: 10vh;
-@media only screen and ${breakpoint.device.sm}{
-  padding-top: 3rem;
-  margin-top: 1rem;
-}
-`
+  align-items: center;
+  text-align: center;
+  height: 10vh;
+  @media only screen and ${breakpoint.device.sm} {
+    padding-top: 3rem;
+    margin-top: 1rem;
+  }
+`;
 
 const Title = styled.h1`
-font-family: Open Sans;
-font-style: normal;
-font-weight: 600;
-font-size: 24px;
-margin: 0;
-line-height: 36px;
-letter-spacing: 1.25px;
-@media only screen and ${breakpoint.device.sm}{
-  font-size: 36px
-}
-`
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  margin: 0;
+  line-height: 36px;
+  letter-spacing: 1.25px;
+  @media only screen and ${breakpoint.device.sm} {
+    font-size: 36px;
+  }
+`;
 
 const Subtitle = styled.h3`
   font-family: Open Sans;
@@ -149,21 +146,21 @@ const Subtitle = styled.h3`
   line-height: 36px;
   margin: 0;
   letter-spacing: 0.25px;
-`
+`;
 
 const Slider = styled(Carousel)`
   width: 100%;
   height: 70vh;
   margin-bottom: 1rem;
-`
+`;
 
 const SliderGrid = styled(Grid)`
-  height: 70vh
-`
+  height: 70vh;
+`;
 
 const Image = styled(Box)`
-  height: 50vh
-`
+  height: 50vh;
+`;
 
 const Footer = styled.div`
   width: 100%;
@@ -174,8 +171,7 @@ const Footer = styled.div`
   text-align: center;
   justify-content: center;
   padding-bottom: 1rem;
-  @media only screen and ${breakpoint.device.sm}{
+  @media only screen and ${breakpoint.device.sm} {
     margin-top: 3rem;
   }
-`
-
+`;

@@ -32,8 +32,7 @@ const ManageHouseholds = () => {
         .then((res) => {
           setFridges(res.data.userFridges);
           refreshUsers();
-        })
-      
+        });
     } catch (err) {
       console.log(err);
     }
@@ -41,19 +40,22 @@ const ManageHouseholds = () => {
 
   async function refreshUsers() {
     try {
-      if(fridgeId) {
-        const res = await axios.get(urlFridges + '/' + fridgeId, { withCredentials: true });
+      if (fridgeId) {
+        const res = await axios.get(urlFridges + "/" + fridgeId, {
+          withCredentials: true,
+        });
         setUsers(res.data.fridgeUsers);
-        setAdmin(res.data.fridgeUsers.find(u => u.id === user.id).userFridge.admin)
-      }
-      else {
-        setUsers([])
+        setAdmin(
+          res.data.fridgeUsers.find((u) => u.id === user.id).userFridge.admin
+        );
+      } else {
+        setUsers([]);
       }
     } catch (err) {
       console.log(err);
     }
   }
-  
+
   useEffect(() => {
     refreshFridges();
   }, []);
@@ -65,58 +67,58 @@ const ManageHouseholds = () => {
   const useInvite = async (code) => {
     try {
       const res = await axios
-        .get(urlInvite + '/' + code.name, { withCredentials: true })
+        .get(urlInvite + "/" + code.name, { withCredentials: true })
         .then((res) => {
           refreshFridges();
-        })
+        });
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const deleteUser = async (userId) => {
     const res = await axios
-      .delete(urlInvite + '/' + userId + '/' + fridgeId,
-        {
-          withCredentials: true,
-        })
-        .then((res) => {
-          refreshUsers();
-        })
-        .catch((e) => console.log(e));
+      .delete(urlInvite + "/" + userId + "/" + fridgeId, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        refreshUsers();
+      })
+      .catch((e) => console.log(e));
   };
 
   const createFridge = async (newFridge) => {
     const res = await axios
-        .post(urlFridges,
-        { 
-          ...newFridge 
+      .post(
+        urlFridges,
+        {
+          ...newFridge,
         },
         {
           withCredentials: true,
-        })
-        .then((res) => {
-          refreshFridges();
-        })
-        .catch((e) => console.log(e));
+        }
+      )
+      .then((res) => {
+        refreshFridges();
+      })
+      .catch((e) => console.log(e));
   };
 
-  const deleteFridge = async() => {
+  const deleteFridge = async () => {
     const res = await axios
-      .delete(urlFridges + '/' + fridgeId,
-        {
-          withCredentials: true,
-        })
-        .then((res) => {
-          refreshFridges();
-          setFridgeId(fridges.find(x=>x!==undefined).id);
-        })
-        .catch((e) => console.log(e));
+      .delete(urlFridges + "/" + fridgeId, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        refreshFridges();
+        setFridgeId(fridges.find((x) => x !== undefined).id);
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
-    <>
-      <Link to="/settings" style={{textDecoration: 'none'}}>
+    <div style={{ padding: "0 12px" }}>
+      <Link to="/settings" style={{ textDecoration: "none" }}>
         <BackButton />
       </Link>
       <h2>Manage households</h2>
@@ -129,19 +131,18 @@ const ManageHouseholds = () => {
               fridges={fridges}
             />
             <AddFridgeButton createFridge={createFridge} />
-            <DeleteFridgeButton deleteFridge={deleteFridge} name={selectedFridge?.name} />
+            <DeleteFridgeButton
+              deleteFridge={deleteFridge}
+              name={selectedFridge?.name}
+            />
             <UseInviteButton useInvite={useInvite} />
             <CreateInviteButton admin={admin} fridgeId={fridgeId} />
           </ButtonSection>
-          
-          <UsersTable
-            userData={users}
-            admin={admin}
-            deleteUser={deleteUser}
-          /> 
+
+          <UsersTable userData={users} admin={admin} deleteUser={deleteUser} />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -16,7 +16,7 @@ const General = () => {
   const { user } = useUserContext();
   const [textFieldInput, setTextFieldinput] = useState(user.email);
   const [msg, setMsg] = useState(null);
-  let timeoutID = null;
+  const [msgId, setMsgId] = useState(null);
 
   const validateEmail = () => {
     if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(textFieldInput)) {
@@ -26,11 +26,13 @@ const General = () => {
   };
 
   const notificate = (message, severity = "error") => {
-    clearTimeout(timeoutID);
+    clearTimeout(msgId);
     setMsg(<Alert severity={severity}>{message}</Alert>);
-    timeoutID = setTimeout(() => {
-      setMsg(null);
-    }, 5000);
+    setMsgId(
+      setTimeout(() => {
+        setMsg(null);
+      }, 5000)
+    );
   };
 
   const validationSchema = yup.object({
@@ -116,7 +118,7 @@ const General = () => {
   });
 
   return (
-    <>
+    <div style={{ padding: "0 12px" }}>
       <Link to="/settings" style={{ textDecoration: "none" }}>
         <BackButton />
       </Link>
@@ -211,7 +213,7 @@ const General = () => {
           Change Username
         </PrimaryButtonStyled>
       </Stack>
-    </>
+    </div>
   );
 };
 

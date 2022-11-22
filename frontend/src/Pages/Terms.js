@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Terms = () => {
   return (
-    <>
+    <div style={{ padding: "0 12px" }}>
       <Link to="/settings" style={{ textDecoration: "none" }}>
         <BackButton />
       </Link>
@@ -50,7 +50,7 @@ const Terms = () => {
         quisquam veniam, nam animi inventore. Consequatur, atque corporis
         laudantium inventore repellat minima rem nisi?
       </p>
-    </>
+    </div>
   );
 };
 

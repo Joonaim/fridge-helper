@@ -51,6 +51,7 @@ app.use(
 )
 app.use(middleware.requestLogger)
 app.use(express.static('build'))
+app.use(express.static('images'))
 
 app.use('/auth', authRouter)
 
