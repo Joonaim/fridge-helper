@@ -131,7 +131,9 @@ router.get('/:year/:id', middleware.checkUserBelongsToFridge, async (req, res) =
     ) {
       const fridgeWasteTot = fridgeWaste[0].total_amount
       const othersWasteTot = othersWaste[0].total_amount / numberOfOtherFridges
-      const fourMostOftenExpiring = mostOftenExpiring.slice(0, 4)
+
+      const mostOftenExpiringParsed = mostOftenExpiring.map((item) => ({ ...item, total_amount: (item.total_amount / 12).toFixed(2) }))
+      const fourMostOftenExpiring = mostOftenExpiringParsed.slice(0, 4)
 
       if (fridgeWasteTot > othersWasteTot) {
         const percent = parseInt(
