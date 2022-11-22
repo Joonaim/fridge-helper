@@ -105,12 +105,17 @@ const Household = () => {
   const deleteItem = async (item, foodWaste) => {
     console.log(`${urlItems}/${item.id}`);
     try {
-      const res = await axios.delete(`${urlItems}/${item.id}`, fridgeId, {withCredentials: true});
-      console.log(res, foodWaste);
-
-    }
-    catch (error) {
-      console.log(error.response.data);
+      //const res = await axios.delete(`${urlItems}/${item.id}`, fridgeId, {withCredentials: true});
+      
+      if (foodWaste){
+        try{
+          await axios.post('/api/foodwaste/products', {...item, fridgeId: fridgeId}, {withCredentials:true})}
+        catch(error){
+          console.log(error)
+        }
+  }}
+    catch(error){
+      console.log(error)
     }
   };
 

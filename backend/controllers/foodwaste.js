@@ -6,6 +6,24 @@ const sequelize = require('sequelize')
 const { WasteProduct } = require('../models')
 const middleware = require('../utils/middleware')
 
+router.post('/products/' , async (req, res) => {
+  console.log(req.body)
+  const newWasteProduct = await WasteProduct.create({ name: req.body.name, amount: req.body.amount, fridgeId: req.body.fridgeId })
+    .catch((error) => {
+      console.log(error)
+    })
+    .then((result) => {
+      return result
+    })
+  if (newWasteProduct){
+    console.log(JSON.stringify(newWasteProduct))
+    res.status(201).json(newWasteProduct).send()
+  }
+  else {
+    res.status(400).json({ error: 'Bad request' }).send()
+  }
+})
+
 router.get('/:year/:id', middleware.checkUserBelongsToFridge, async (req, res) => {
   if (req.params.id && req.params.year) {
     const wastePerMonth = await WasteProduct.findAll({
