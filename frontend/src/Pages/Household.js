@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import { Stack } from "@mui/system";
 import styled from "styled-components";
 import ItemTable from "../Components/ItemTable";
-import breakpoint from '../Components/breakpoints';
+import breakpoint from "../Components/breakpoints";
 
 const Household = () => {
   const { user } = useUserContext();
@@ -52,8 +52,7 @@ const Household = () => {
         item.expiryDate &&
         dayjs(item.expiryDate).isBefore(dayjs().add(5, "day")) &&
         setExpiring((arr) => [...arr, item]);
-
-    })
+    });
     setFormat(formData());
   }, [selectedFridge]);
 
@@ -105,118 +104,144 @@ const Household = () => {
   const deleteItem = async (items, foodWaste) => {
     //console.log(`${urlItems}/${item.id}`);
     //console.log(items)
-    
+
     try {
-      
       if (foodWaste) {
-        const foodWasteProducts = fridges.find((fridge) => fridge.id === fridgeId).products.filter((product) => items.indexOf(product.id) !== -1)
-        var fWProductsFormatted = []
+        const foodWasteProducts = fridges
+          .find((fridge) => fridge.id === fridgeId)
+          .products.filter((product) => items.indexOf(product.id) !== -1);
+        var fWProductsFormatted = [];
         foodWasteProducts.reduce((result, product) => {
           if (!result[product.name]) {
-            result[product.name] = { name: product.name, amount: 0, fridgeId: fridgeId }
-            fWProductsFormatted.push(result[product.name])
+            result[product.name] = {
+              name: product.name,
+              amount: 0,
+              fridgeId: fridgeId,
+            };
+            fWProductsFormatted.push(result[product.name]);
           }
-          result[product.name].amount += 1
-          return result
-        }, {})
+          result[product.name].amount += 1;
+          return result;
+        }, {});
 
-        await axios.post('/api/foodwaste/products', {products: fWProductsFormatted, fridgeId: fridgeId}, {withCredentials:true})
-
+        await axios.post(
+          "/api/foodwaste/products",
+          { products: fWProductsFormatted, fridgeId: fridgeId },
+          { withCredentials: true }
+        );
       }
 
-      await axios.delete(`${urlItems}`, {data: {fridgeId: fridgeId, itemIds: items}}, {withCredentials: true})
+      await axios
+        .delete(
+          `${urlItems}`,
+          { data: { fridgeId: fridgeId, itemIds: items } },
+          { withCredentials: true }
+        )
         .catch((err) => {
-            console.log(err)
-            return
-        }).then((response) => {
-            if (response?.status == 204) {
-                
-                setFridges((prev) =>
-                    prev.map((f) =>
-                    f.id !== fridgeId
-                        ? f
-                        : { ...f, products: f.products.filter((product) => items.indexOf(product.id) === -1 ) }
-                    )
-                )
-
-            }
+          console.log(err);
+          return;
         })
-
-    }catch (error) {
+        .then((response) => {
+          if (response?.status == 204) {
+            setFridges((prev) =>
+              prev.map((f) =>
+                f.id !== fridgeId
+                  ? f
+                  : {
+                      ...f,
+                      products: f.products.filter(
+                        (product) => items.indexOf(product.id) === -1
+                      ),
+                    }
+              )
+            );
+          }
+        });
+    } catch (error) {
       console.log(error.response.data);
     }
-    
   };
 
-
-  const formData = () =>{
+  const formData = () => {
     let productList = [];
     let products = selectedFridge?.products;
 
-    products?.map(item => {
-      let foundedItem = productList.find(i => {
-        return(i.name.toUpperCase() === item.name.toUpperCase() );
+    products?.map((item) => {
+      let foundedItem = productList.find((i) => {
+        return i.name.toUpperCase() === item.name.toUpperCase();
       });
 
-      if (foundedItem){
-        if (!foundedItem.items.find(i=> i.id === item.id) && dayjs(item.expiryDate).isBefore(dayjs(foundedItem.expiryDate)) ){
+      if (foundedItem) {
+        if (
+          !foundedItem.items.find((i) => i.id === item.id) &&
+          dayjs(item.expiryDate).isBefore(dayjs(foundedItem.expiryDate))
+        ) {
           foundedItem.expiryDate = item.expiryDate;
           foundedItem.purchaseDate = item.purchaseDate;
           foundedItem.items = foundedItem.items.concat(item);
-        } 
-        else if (!foundedItem.items.find(i=> i.id === item.id)) {
+        } else if (!foundedItem.items.find((i) => i.id === item.id)) {
           foundedItem.items = foundedItem.items.concat(item);
         }
-      }
-      else{
+      } else {
         let newItem = {
           name: item.name,
           expiryDate: item.expiryDate,
           purchaseDate: item.purchaseDate,
-          items: [item]
+          items: [item],
         };
         productList = productList.concat(newItem);
       }
-    }); 
-    return(productList);
+    });
+    return productList;
   };
 
   return (
     <>
-    {fridges?.length < 1 ? <div>
-      <p>
-        To start using fridge helper, 
-        <a href="/managehouseholds">{' '}create your first fridge or join existing one</a></p></div>
-        :
-      (fridges&& formattedData && (
+      {fridges?.length < 1 ? (
         <div>
-          <ButtonSection>
-            <SelectFridge
-              currentFridge={fridgeId}
-              setCurrentFridge={setFridgeId}
-              fridges={fridges}
-            />
-            <AddItemModal createItem={createItem} />
-          </ButtonSection>
-          <Warnings>
-            {expired.length > 0 && (
-              <Warning
-                type="error"
-                message={`${expired.length} expired item(s)!`}
-              />
-            )}
-            {soonExpiring.length > 0 && (
-              <Warning
-                type="warning"
-                message={`${soonExpiring.length} item(s) exires within 5 days!`}
-              />
-            )}
-          </Warnings>
-          <ItemTable data={formattedData} manageItem={manageItem} deleteItem={deleteItem}/>
+          <p style={{ padding: "0 12px" }}>
+            To start using fridge helper,
+            <a href="/managehouseholds">
+              {" "}
+              create your first fridge or join existing one
+            </a>
+          </p>
         </div>
-      ))
-    } 
-  </>
+      ) : (
+        fridges &&
+        formattedData && (
+          <div>
+            <ButtonSection>
+              <SelectFridge
+                currentFridge={fridgeId}
+                setCurrentFridge={setFridgeId}
+                fridges={fridges}
+              />
+              <AddItemModal createItem={createItem} />
+            </ButtonSection>
+            <Warnings>
+              {expired.length > 0 && (
+                <Warning
+                  type="error"
+                  message={`${expired.length} expired item(s)!`}
+                />
+              )}
+              {soonExpiring.length > 0 && (
+                <Warning
+                  type="warning"
+                  message={`${soonExpiring.length} item(s) exires within 5 days!`}
+                />
+              )}
+            </Warnings>
+            <ItemTable
+              data={formattedData}
+              manageItem={manageItem}
+              deleteItem={deleteItem}
+            />
+          </div>
+        )
+      )}
+    </>
   );
 };
 
@@ -224,15 +249,15 @@ export default Household;
 
 const Warnings = styled(Stack)`
   padding: 8px 16px;
-  @media only screen and ${breakpoint.device.sm}{
-    padding: 16px 32px
+  @media only screen and ${breakpoint.device.sm} {
+    padding: 16px 32px;
   }
 `;
 
 const ButtonSection = styled.div`
   display: block;
   padding: 8px 16px 16px 16px;
-  @media only screen and ${breakpoint.device.sm}{
-    padding: 16px 32px
+  @media only screen and ${breakpoint.device.sm} {
+    padding: 16px 32px;
   }
 `;
