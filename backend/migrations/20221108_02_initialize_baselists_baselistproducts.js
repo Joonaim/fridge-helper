@@ -44,8 +44,7 @@ module.exports = {
       base_list_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: { model: 'base_lists', key: 'id' },
-        onDelete: 'cascade'
+        references: { model: 'base_lists', key: 'id' }
       },
       created_at: {
         allowNull: false,
@@ -58,8 +57,7 @@ module.exports = {
     })
   },
   down: async ({ context: queryInterface }) => {
-    await queryInterface.dropTable('base_lists')
     await queryInterface.dropTable('base_list_products')
+    await queryInterface.dropTable('base_lists')
   }
 }
-
