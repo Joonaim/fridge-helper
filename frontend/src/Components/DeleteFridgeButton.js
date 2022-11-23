@@ -11,7 +11,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { styled } from "@mui/system";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-const DeleteFridgeButton = ({ deleteFridge, name }) => {
+const DeleteFridgeButton = ({ admin, deleteFridge, name }) => {
   const [open, setOpen] = useState(false);
 
   const removeFridge = () => {
@@ -26,6 +26,7 @@ const DeleteFridgeButton = ({ deleteFridge, name }) => {
         size="small"
         endIcon={<RemoveIcon/>}
         onClick={() => setOpen(true)}
+        disabled={!admin}
       >
         Delete fridge
       </AddButton>

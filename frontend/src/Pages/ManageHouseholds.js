@@ -132,6 +132,7 @@ const ManageHouseholds = () => {
             />
             <AddFridgeButton createFridge={createFridge} />
             <DeleteFridgeButton
+              admin={admin}
               deleteFridge={deleteFridge}
               name={selectedFridge?.name}
             />

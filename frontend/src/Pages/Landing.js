@@ -34,14 +34,14 @@ export default function Landing() {
     {
       index: 1,
       name: "esimerkki1",
-      media: "http://localhost:3000/fridge1.png",
+      media: "/fridge1.png",
       bgcolor: "#945D60",
       text: "It's true, Fridge helper will help you save money and nature. Less food waste, less headache. Amazing. Get started today.",
     },
     {
       index: 2,
       name: "esimerkki2",
-      media: "http://localhost:3000/fridge2.png",
+      media: "/fridge2.png",
       bgcolor: "#626E60",
       text: "From the household menu you can easily see and manage the contents of your fridge.",
     },
