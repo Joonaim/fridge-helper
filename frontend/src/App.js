@@ -9,7 +9,7 @@ import Settings from "./Pages/Settings";
 import General from "./Pages/General";
 import ManageHouseholds from "./Pages/ManageHouseholds";
 import Terms from "./Pages/Terms";
-import Faq from "./Pages/FAQ";
+import Faq from "./Pages/Faq";
 import { ThemeProvider } from "styled-components";
 import { createTheme } from "styled-breakpoints";
 
@@ -17,12 +17,11 @@ const themeWithBreakpoints = createTheme({
   sm: "576px",
   md: "768px",
   lg: "992px",
-  xl: "1200px"
+  xl: "1200px",
 });
 
-
 export const theme = {
-  ...themeWithBreakpoints
+  ...themeWithBreakpoints,
 };
 
 function App() {

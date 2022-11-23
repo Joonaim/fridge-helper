@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
       {
         model: User,
         as: 'fridgeUsers',
-        attributes: { exclude: ['password'] },
+        attributes: { exclude: ['password', 'username'] },
         through: { attributes: ['admin'] }
       }
     ]

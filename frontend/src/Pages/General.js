@@ -72,7 +72,8 @@ const General = () => {
         }
       );
     } catch (e) {
-      console.log(e);
+      notificate("Error while trying to change username");
+      return;
     }
     user.email = textFieldInput;
     notificate("Username changed succesfully", "success");
