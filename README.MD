@@ -1,17 +1,5 @@
 # Fridge helper
 
-## Fly.io
-
-Create app&db:<br>
-<https://fly.io/docs/hands-on/install-flyctl/>
-
-Backend `.env` DATABASE_URL = fly.io connect-string:<br>
-`postgres://postgres:<password>@localhost:5432/postgres` (default form)
-
-Tunnel (needs to be running for development when communicating between local app and postgres):<br>
-`flyctl proxy 5432 -a <app-name>-db`(default form)<br>
-see more: <https://fly.io/docs/reference/postgres/#connecting-to-postgres-from-outside-fly>
-
 ## Get started
 
 - Create file `.env` in the folder `backend` following the format:
@@ -21,7 +9,7 @@ see more: <https://fly.io/docs/reference/postgres/#connecting-to-postgres-from-o
       DATABASE_URL=<database url here>
       SESSION_SECRET=<session secret here>
 
-  **_NOTE_** PORT may be any desired port for the backend (if not set default is 3003). FRONTEND_URL is usually `http://localhost:3000` during development (depending on react port). DATABASE_URL is of format `postgres://db_user:db_pass@db_host_address:db_port/db_name`, refer to upper section `Fly.io`. SESSION_SECRET may be anything for development purposes.
+  **_NOTE_** PORT may be any desired port for the backend (if not set default is 3003). FRONTEND_URL is usually `http://localhost:3000` during development (depending on react port). DATABASE_URL is of format `postgres://db_user:db_pass@db_host_address:db_port/db_name`, refer to next section if using postgres on `Fly.io`. SESSION_SECRET may be anything for development purposes.
 
 - Create file `.env` in the folder `frontend` with the format:
 
@@ -38,3 +26,15 @@ see more: <https://fly.io/docs/reference/postgres/#connecting-to-postgres-from-o
 - **DONE**
 
 Test users with some test data: alice@test.com & bob@test.com, password for both: topsecret
+
+## Fly.io
+
+Create app&db:<br>
+<https://fly.io/docs/hands-on/install-flyctl/>
+
+Backend `.env` DATABASE_URL = fly.io connect-string:<br>
+`postgres://postgres:<password>@localhost:5432/postgres` (default form)
+
+Tunnel (needs to be running for development when communicating between local app and Fly.io postgres):<br>
+`flyctl proxy 5432 -a <app-name>-db`(default form)<br>
+see more: <https://fly.io/docs/reference/postgres/#connecting-to-postgres-from-outside-fly>
