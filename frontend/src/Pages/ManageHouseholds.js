@@ -12,6 +12,7 @@ import UseInviteButton from "../Components/UseInviteButton";
 import UsersTable from "../Components/UsersTable";
 import styled from "styled-components";
 import CreateInviteButton from "../Components/CreateInviteButton";
+import { Alert } from "@mui/material";
 
 const ManageHouseholds = () => {
   const { user } = useUserContext();
@@ -19,11 +20,23 @@ const ManageHouseholds = () => {
   const [users, setUsers] = useState();
   const [fridgeId, setFridgeId] = useState(); //currently selected
   const [admin, setAdmin] = useState();
+  const [msg, setMsg] = useState(null);
+  const [msgId, setMsgId] = useState(null);
 
   const url = `/api/users/${user.id}`;
   const urlFridges = "/api/fridges";
   const urlInvite = "/api/invite";
   const selectedFridge = fridges?.find((f) => f.id == fridgeId);
+
+  const notificate = (message, severity = "error") => {
+    clearTimeout(msgId);
+    setMsg(<Alert severity={severity}>{message}</Alert>);
+    setMsgId(
+      setTimeout(() => {
+        setMsg(null);
+      }, 5000)
+    );
+  };
 
   async function refreshFridges() {
     try {
@@ -69,6 +82,8 @@ const ManageHouseholds = () => {
       const res = await axios
         .get(urlInvite + "/" + code.name, { withCredentials: true })
         .then((res) => {
+          setFridgeId(res.data.id);
+          notificate("Joined fridge", "success");
           refreshFridges();
         });
     } catch (err) {
@@ -82,6 +97,7 @@ const ManageHouseholds = () => {
         withCredentials: true,
       })
       .then((res) => {
+        notificate("User removed", "success");
         refreshUsers();
       })
       .catch((e) => console.log(e));
@@ -99,6 +115,8 @@ const ManageHouseholds = () => {
         }
       )
       .then((res) => {
+        setFridgeId(res.data.id);
+        notificate(res.data.name + " created", "success");
         refreshFridges();
       })
       .catch((e) => console.log(e));
@@ -111,6 +129,7 @@ const ManageHouseholds = () => {
       })
       .then((res) => {
         refreshFridges();
+        notificate("Fridge deleted", "success");
         setFridgeId(fridges.find((x) => x !== undefined).id);
       })
       .catch((e) => console.log(e));
@@ -122,6 +141,7 @@ const ManageHouseholds = () => {
         <BackButton />
       </Link>
       <h2>Manage households</h2>
+      {msg}
       {fridges && (
         <div>
           <ButtonSection>

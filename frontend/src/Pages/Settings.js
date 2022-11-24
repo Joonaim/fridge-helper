@@ -11,6 +11,7 @@ const Settings = () => {
   const { user } = useUserContext();
 
   const settingItems = [
+    { text: "Back to My Household", route: "household"},
     { text: "General", route: "general" },
     { text: "Manage households", route: "managehouseholds" },
     { text: "Terms and conditions", route: "terms" },
