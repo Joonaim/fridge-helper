@@ -1,7 +1,6 @@
 import { useState } from "react";
 import * as React from "react";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -30,23 +29,24 @@ const UseInviteButton = ({ useInvite }) => {
         Join fridge
       </AddButton>
       
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Join a fridge</DialogTitle>
         <DialogContent>
-          <Form onSubmit={doInvite}>
+          <form onSubmit={doInvite}>
             <Input
               id="code"
               label="Enter invite code"
               variant="outlined"
+              fullWidth
               onChange={(e) => setName(e.target.value)}
             />
             <Actions>
               <Button onClick={() => setOpen(false)}>Cancel</Button>
-              <Button type="submit" onClick={() => setOpen(false)}>
+              <Button type="submit" disabled={name === ''} onClick={() => setOpen(false)}>
                 Join fridge
               </Button>
             </Actions>
-          </Form>
+          </form>
         </DialogContent>
       </Dialog>
     </>
@@ -68,19 +68,8 @@ const AddButton = styled(Button)({
   },
 });
 
-const Form = styled("form")({
-  display: "flex",
-  flexDirection: "column",
-  maxWidth: "500px",
-  width: "100%",
-});
-
 const Input = styled(TextField)({
   margin: "1rem 0 1rem 0",
-});
-
-const AmountButton = styled(IconButton)({
-  margin: "0 0.5rem 0 0.5rem",
 });
 
 const Actions = styled(DialogActions)({

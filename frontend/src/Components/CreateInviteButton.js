@@ -1,7 +1,6 @@
 import { useState } from "react";
 import * as React from "react";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -11,16 +10,18 @@ import { styled } from "@mui/system";
 import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 import axios from "axios";
+import { Alert, Snackbar } from "@mui/material";
 
 const urlInvite = "/api/invite";
 
 const CreateInviteButton = ({ admin, fridgeId }) => {
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
+  const [snackbarOpen, setSnackOpen] = useState(false );
 
   const copy = async () => {
     await navigator.clipboard.writeText(text);
-    alert('Text copied');
+    setSnackOpen(true)
   };
 
   async function createInvite() {
@@ -51,6 +52,19 @@ const CreateInviteButton = ({ admin, fridgeId }) => {
     setOpen(true);
   }
 
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackOpen(false);
+  }
+
+  const handleclose = () => {
+    setOpen(false)
+    setSnackOpen(false)
+  }
+
   return (
     <>
       <AddButton
@@ -63,23 +77,31 @@ const CreateInviteButton = ({ admin, fridgeId }) => {
       >
         Create new invite
       </AddButton>
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+        <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+          Invite code copied to clipboard!
+        </Alert>
+      </Snackbar>
+      <Dialog fullWidth open={open} onClose={handleclose}>
         <DialogTitle>Create new fridge</DialogTitle>
         <DialogContent>
-          <Form>
+          <form>
             <Input
               id="code"
               value={text}
               label="Invite code"
               variant="outlined"
-              disabled={false}
+              readOnly
+              inputProps={{ readOnly: true }}
+              fullWidth
               onChange={(e) => setText(e.target.value)}
+              onClick={() => console.log('...')}
             />
             <Actions>
-              <Button onClick={() => setOpen(false)}>Close</Button>
+              <Button onClick={handleclose}>Close</Button>
               <Button onClick={() => copy()} disabled={!text}>Copy to clipboard</Button>
             </Actions>
-          </Form>
+          </form>
         </DialogContent>
       </Dialog>
     </>
@@ -99,13 +121,6 @@ const AddButton = styled(Button)({
     border: "1px solid #384036",
     background: "white",
   },
-});
-
-const Form = styled("form")({
-  display: "flex",
-  flexDirection: "column",
-  maxWidth: "500px",
-  width: "100%",
 });
 
 const Input = styled(TextField)({

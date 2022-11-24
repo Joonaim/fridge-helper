@@ -44,7 +44,7 @@ const AddItemModal = ({ createItem }) => {
       >
         Add item
       </AddButton>
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add new item</DialogTitle>
         <DialogContent>
           <Form onSubmit={addItem}>

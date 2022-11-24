@@ -4,11 +4,11 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
 import { styled } from "@mui/system";
 import Skeleton from "@mui/material/Skeleton";
 import DeleteUserButton from "../Components/DeleteUserButton";
 import Star from '@mui/icons-material/Star';
+import { Box, TableContainer, Typography } from "@mui/material";
 
 
 const UsersTable = ({userData, admin, deleteUser}) => {
@@ -20,36 +20,45 @@ const UsersTable = ({userData, admin, deleteUser}) => {
   return(
     <div>
       {userData ? (
-        <Table size='small'>
-        <TableHead>
-          <TableRow>
-            {columns.map(column=> 
-              <LabelCell
-                key={column.id} 
-              >
-                <TableSortLabel>
+        <>
+        <Typography
+          sx={{ flex: '1 1 100%', marginTop: 2, marginBottom: 3 }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          Household members
+        </Typography>
+        <TableContainer component={Box}>
+          <Table size='medium'>
+          <TableHead>
+            <TableRow>
+              {columns.map(column=> 
+                <LabelCell
+                  key={column.id} 
+                >
                   {column.label}
-                </TableSortLabel>
-              </LabelCell>)}
-            <TableCell/>
-          </TableRow>
-        </TableHead>
-          
-          <TableBody>
-            {userData.map((data) => (
-              <TableRow
-                key={data.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <IconCell 
-                  col='black' 
-                  align='center'>
-                    {data.userFridge.admin ? <Star sx={{ color: "#FFD700", margin: "0.5rem 0 1rem 0"}}/> : (admin ? <DeleteUserButton data={data} deleteUser={deleteUser}/> : null)}
-                </IconCell>
-                <ColumnCell col='black'>{data.username}</ColumnCell>
-              </TableRow>))}
-          </TableBody>
-        </Table>)
+                </LabelCell>)}
+            </TableRow>
+          </TableHead>
+            
+            <TableBody>
+              {userData.map((data) => (
+                <TableRow
+                  key={data.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <IconCell 
+                    col='black' 
+                    align='center'>
+                      {data.userFridge.admin ? <Star sx={{ color: "#FFD700", margin: "0.5rem 0 1rem 0"}}/> : (admin ? <DeleteUserButton data={data} deleteUser={deleteUser}/> : null)}
+                  </IconCell>
+                  <ColumnCell col='black'>{data.username}</ColumnCell>
+                </TableRow>))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        </>)
         :
         <div>
           <Skeleton variant="rectangular" animation="wave"/>
@@ -70,7 +79,7 @@ const ColumnCell = styled(TableCell)((props) => ({
 }));
 
 const LabelCell = styled(TableCell)({
-  fontSize: "14px",
+  fontSize: "16px",
   padding: "0 4px 0 8px",
 });
 

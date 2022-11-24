@@ -40,7 +40,7 @@ const MassActionModal = ({selected, deleteItem, isfoodWaste}) => {
         <EditIcon fontSize='medium'/>
       </EditButton>
       
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Edit items</DialogTitle>
         <DialogContent>
           <p>You have selected {selected.length} items</p>
@@ -64,9 +64,6 @@ const MassActionModal = ({selected, deleteItem, isfoodWaste}) => {
           </Buttons>
           <Actions>
             <ActionButton onClick={() => setOpen(false)}>Cancel</ActionButton>
-            <ActionButton type="submit" onClick={() => setOpen(false)}>
-                Save
-            </ActionButton>
           </Actions>
 
         </DialogContent>

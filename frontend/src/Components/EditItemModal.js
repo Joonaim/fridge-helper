@@ -19,6 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddButton from "./AddItemModal";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Grid } from "@mui/material";
 
 const EditItemModal = ({ item, manageItem, deleteItem }) => {
   const [name, setName] = useState(item.name);
@@ -44,6 +45,16 @@ const EditItemModal = ({ item, manageItem, deleteItem }) => {
     setOpen(false)
   };
 
+  const handleClose = () => {
+    setName(item.name)
+    setPurchaseDate(item.purchaseDate)
+    setExpiryDate(item.expiryDate)
+    setNumber(item.amount)
+    setOpen(false)
+  }
+
+  const changed = name !== item.name || purchaseDate !== item.purchaseDate || expiryDate !== item.expiryDate || numberOfProducts !== item.amount
+
   return (
     <div>{item &&<>
       <EditButton
@@ -54,59 +65,79 @@ const EditItemModal = ({ item, manageItem, deleteItem }) => {
         <EditIcon fontSize='small'/>
       </EditButton>
 
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog fullWidth open={open} onClose={handleClose}>
         <DialogTitle>Edit item</DialogTitle>
         <DialogContent>
-          <Form onSubmit={editItem}>
-            <Input
-              id="name"
-              value={name}
-              label="Item name"
-              variant="outlined"
-              onChange={(e) => setName(e.target.value)}
-            />
+          <form onSubmit={editItem}>
+
+          <Grid container direction="column" spacing={0}>
+            <Grid item>
+              <Input
+                id="name"
+                value={name}
+                label="Item name"
+                variant="outlined"
+                onChange={(e) => setName(e.target.value)}
+                fullWidth
+              />
+            </Grid>
+            
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <MobileDatePicker
-                label="Added"
-                inputFormat="DD/MM/YYYY"
-                value={purchaseDate}
-                onChange={(value) => setPurchaseDate(value)}
-                variant="standard"
-                renderInput={(params) => <Input {...params} />}
-              />
-              <MobileDatePicker
-                label="Expiration date"
-                inputFormat="DD/MM/YYYY"
-                value={expiryDate}
-                onChange={(value) => setExpiryDate(value)}
-                variant="standard"
-                renderInput={(params) => <Input {...params} />}
-              />
+              <Grid item>
+                <MobileDatePicker
+                  label="Added"
+                  inputFormat="DD/MM/YYYY"
+                  value={purchaseDate}
+                  onChange={(value) => setPurchaseDate(value)}
+                  variant="standard"
+                  renderInput={(params) => <Input fullWidth {...params} />}
+                />
+              </Grid>
+              <Grid item>
+                <MobileDatePicker
+                  label="Expiration date"
+                  inputFormat="DD/MM/YYYY"
+                  value={expiryDate}
+                  onChange={(value) => setExpiryDate(value)}
+                  variant="standard"
+                  renderInput={(params) => <Input fullWidth {...params} />}
+                />
+              </Grid>
             </LocalizationProvider>
             
-            <StyledButton        
-              variant="outlined"
-              size="small"
-              endIcon={<RestaurantIcon />} 
-              onClick={e=>handleDelete(e, false)}>
-                  This item is used
-            </StyledButton>
-            <StyledButton        
-              variant="outlined"
-              size="small"
-              endIcon={<DeleteIcon />} 
-              onClick={e=>handleDelete(e, true)}>
-                  Add to waste
-            </StyledButton>
+            <Grid item>
+              <StyledButton        
+                variant="outlined"
+                size="small"
+                fullWidth
+                endIcon={<RestaurantIcon />} 
+                onClick={e=>handleDelete(e, false)}>
+                    This item is used
+              </StyledButton>
+            </Grid>
+            
+            <Grid item>
+              <StyledButton        
+                variant="outlined"
+                size="small"
+                fullWidth
+                endIcon={<DeleteIcon />} 
+                onClick={e=>handleDelete(e, true)}>
+                    Add to waste
+              </StyledButton>
+            </Grid>
+
+          </Grid>
+            
             
 
             <Actions>
-              <Button onClick={() => setOpen(false)}>Cancel</Button>
-              <Button type="submit" onClick={() => setOpen(false)}>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button type="submit" disabled={!changed} onClick={() => setOpen(false)}>
                 Save
               </Button>
             </Actions>
-          </Form>
+          </form>
         </DialogContent>
       </Dialog></>}
     </div>
@@ -124,13 +155,6 @@ const EditButton = styled(IconButton)({
   
     background: "white",
   },
-});
-
-const Form = styled("form")({
-  display: "flex",
-  flexDirection: "column",
-  maxWidth: "500px",
-  width: "100%",
 });
 
 const Input = styled(TextField)({

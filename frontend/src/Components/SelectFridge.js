@@ -93,10 +93,6 @@ const HouseholdButton = styled(Button)({
 
 const PopoverMenu = styled(Popover)({
   fontSize: "20px",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "flex-start",
-  justifyContent: "center",
   padding: "0px 17px 0px 10px",
 
   ul: {
@@ -107,9 +103,10 @@ const PopoverMenu = styled(Popover)({
     li: {
       button: {
         padding: "8px 24px 8px 24px",
-        alignItems: "left",
         color: "black",
         fontSize: "18px",
+        justifyContent: 'start',
+        width: '100%',
 
         ":hover": {
           background: "#E0EEDD",
