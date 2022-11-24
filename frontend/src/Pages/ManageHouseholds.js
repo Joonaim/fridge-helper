@@ -12,7 +12,7 @@ import UseInviteButton from "../Components/UseInviteButton";
 import UsersTable from "../Components/UsersTable";
 import styled from "styled-components";
 import CreateInviteButton from "../Components/CreateInviteButton";
-import { Alert } from "@mui/material";
+import { Alert, Grid, Typography } from "@mui/material";
 
 const ManageHouseholds = () => {
   const { user } = useUserContext();
@@ -141,27 +141,62 @@ const ManageHouseholds = () => {
         <BackButton />
       </Link>
       <h2>Manage households</h2>
+
       {msg}
       {fridges && (
-        <div>
-          <ButtonSection>
-            <SelectFridge
-              currentFridge={fridgeId}
-              setCurrentFridge={setFridgeId}
-              fridges={fridges}
-            />
-            <AddFridgeButton createFridge={createFridge} />
-            <DeleteFridgeButton
-              admin={admin}
-              deleteFridge={deleteFridge}
-              name={selectedFridge?.name}
-            />
-            <UseInviteButton useInvite={useInvite} />
-            <CreateInviteButton admin={admin} fridgeId={fridgeId} />
-          </ButtonSection>
+        <Grid
+        container
+        direction="column"
+        spacing={0.5}
+        style={{ padding: "0 12px" }}
+        >
+            <Grid item>
+              <SelectFridge
+                currentFridge={fridgeId}
+                setCurrentFridge={setFridgeId}
+                fridges={fridges}
+              />
+            </Grid>
 
-          <UsersTable userData={users} admin={admin} deleteUser={deleteUser} />
-        </div>
+            <Grid item>
+              <UseInviteButton useInvite={useInvite} />
+            </Grid>
+            
+            <Grid item>
+              <AddFridgeButton createFridge={createFridge} />
+            </Grid>
+
+            {fridges?.length > 0 && admin && (
+              <>
+                <Grid item>
+                  <DeleteFridgeButton
+                    admin={admin}
+                    deleteFridge={deleteFridge}
+                    name={selectedFridge?.name}
+                  />
+                </Grid>
+
+                <Grid item>
+                  <CreateInviteButton admin={admin} fridgeId={fridgeId} />
+                </Grid>
+              </>
+            )}
+
+            {fridges?.length > 0 ? (
+              <Grid item>
+                <UsersTable userData={users} admin={admin} deleteUser={deleteUser} />
+              </Grid>
+            ) : (<Typography variant="text"
+                  sx={{
+                      lineHeight: "20.5px",
+                      fontSize: "24px",
+                      fontWeight: 600,
+                      marginTop: 2
+                      }}
+                  >You have no households!</Typography>
+                )}
+
+        </Grid>
       )}
     </div>
   );

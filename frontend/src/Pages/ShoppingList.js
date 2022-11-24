@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import AddItemSListModal from "../Components/AddItemSListModal";
 import ImportBaselist from "../Components/ImportBaselist";
 import ManageBaselists from "../Components/ManageBaselists";
+import NoFridges from "../Components/NoFridges";
 import SelectFridge from "../Components/SelectFridge";
 import ShoppingListTable from "../Components/ShoppingListTable";
 import { useUserContext } from "../Components/UserContext";
@@ -256,7 +257,7 @@ export default function ShoppingList() {
 
   return (
     <>
-      {userFridges && (
+      {userFridges?.length > 0 ? (
         <>
           <Grid
             container
@@ -318,7 +319,7 @@ export default function ShoppingList() {
             )}
           </Grid>
         </>
-      )}
+      ) : (<NoFridges/>)}
     </>
   );
 }

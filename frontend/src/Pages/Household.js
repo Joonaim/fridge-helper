@@ -9,6 +9,7 @@ import { Stack } from "@mui/system";
 import styled from "styled-components";
 import ItemTable from "../Components/ItemTable";
 import breakpoint from "../Components/breakpoints";
+import NoFridges from "../Components/NoFridges";
 
 const Household = () => {
   const { user } = useUserContext();
@@ -198,15 +199,7 @@ const Household = () => {
   return (
     <>
       {fridges?.length < 1 ? (
-        <div>
-          <p style={{ padding: "0 12px" }}>
-            To start using fridge helper,
-            <a href="/managehouseholds">
-              {" "}
-              create your first fridge or join existing one
-            </a>
-          </p>
-        </div>
+        <NoFridges/>
       ) : (
         fridges &&
         formattedData && (

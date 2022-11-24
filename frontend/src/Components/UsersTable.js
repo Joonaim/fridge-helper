@@ -46,12 +46,12 @@ const UsersTable = ({userData, admin, deleteUser}) => {
               {userData.map((data) => (
                 <TableRow
                   key={data.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 }, height: '54px' }}
                 >
                   <IconCell 
                     col='black' 
                     align='center'>
-                      {data.userFridge.admin ? <Star sx={{ color: "#FFD700", margin: "0.5rem 0 1rem 0"}}/> : (admin ? <DeleteUserButton data={data} deleteUser={deleteUser}/> : null)}
+                      {data.userFridge.admin ? <Star sx={{ color: "#FFD700"}}/> : (admin ? <DeleteUserButton data={data} deleteUser={deleteUser}/> : null)}
                   </IconCell>
                   <ColumnCell col='black'>{data.username}</ColumnCell>
                 </TableRow>))}
@@ -86,6 +86,6 @@ const LabelCell = styled(TableCell)({
 const IconCell = styled(TableCell)`
   padding: 0;
   width: 4rem;
-  height: 10px;
+  height: 100%;
 `;
 

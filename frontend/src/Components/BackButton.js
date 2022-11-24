@@ -10,7 +10,7 @@ const BackButton = () => {
       startIcon={<KeyboardBackspaceIcon/>}
       size="medium"
     >
-      BACK
+      Settings
     </StyledButton>
   );
 };

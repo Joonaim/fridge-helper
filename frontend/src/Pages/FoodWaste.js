@@ -17,6 +17,7 @@ import { Box } from '@mui/system';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import SentimentVeryDissatisfied from '@mui/icons-material/SentimentVeryDissatisfied';
+import NoFridges from '../Components/NoFridges';
 
 export default function FoodWaste() {
 
@@ -139,7 +140,7 @@ export default function FoodWaste() {
   return (
 
     <>
-        {userFridges && (
+        {userFridges?.length > 0 ? (
             <Box sx={{margin:1}}>
 
                 <SelectFridge
@@ -247,7 +248,7 @@ export default function FoodWaste() {
                 </Paper>
                 
             </Box>
-        )}
+        ) : (<NoFridges/>)}
     </>
 
     

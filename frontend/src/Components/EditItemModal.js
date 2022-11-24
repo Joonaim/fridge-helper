@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -9,14 +8,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { styled } from "@mui/system";
-import AddIcon from "@mui/icons-material/Add";
-import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import RemoveIcon from "@mui/icons-material/Remove";
 import EditIcon from "@mui/icons-material/Edit";
-import AddButton from "./AddItemModal";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Grid } from "@mui/material";
@@ -56,7 +51,8 @@ const EditItemModal = ({ item, manageItem, deleteItem }) => {
   const changed = name !== item.name || purchaseDate !== item.purchaseDate || expiryDate !== item.expiryDate || numberOfProducts !== item.amount
 
   return (
-    <div>{item &&<>
+    <>
+    {item && <>
       <EditButton
         variant="outlined"
         size="small"
@@ -69,68 +65,63 @@ const EditItemModal = ({ item, manageItem, deleteItem }) => {
         <DialogTitle>Edit item</DialogTitle>
         <DialogContent>
           <form onSubmit={editItem}>
-
-          <Grid container direction="column" spacing={0}>
-            <Grid item>
-              <Input
-                id="name"
-                value={name}
-                label="Item name"
-                variant="outlined"
-                onChange={(e) => setName(e.target.value)}
-                fullWidth
-              />
-            </Grid>
-            
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Grid container direction="column" spacing={0}>
               <Grid item>
-                <MobileDatePicker
-                  label="Added"
-                  inputFormat="DD/MM/YYYY"
-                  value={purchaseDate}
-                  onChange={(value) => setPurchaseDate(value)}
-                  variant="standard"
-                  renderInput={(params) => <Input fullWidth {...params} />}
+                <Input
+                  id="name"
+                  value={name}
+                  label="Item name"
+                  variant="outlined"
+                  onChange={(e) => setName(e.target.value)}
+                  fullWidth
                 />
               </Grid>
+              
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Grid item>
+                  <MobileDatePicker
+                    label="Added"
+                    inputFormat="DD/MM/YYYY"
+                    value={purchaseDate}
+                    onChange={(value) => setPurchaseDate(value)}
+                    variant="standard"
+                    renderInput={(params) => <Input fullWidth {...params} />}
+                  />
+                </Grid>
+                <Grid item>
+                  <MobileDatePicker
+                    label="Expiration date"
+                    inputFormat="DD/MM/YYYY"
+                    value={expiryDate}
+                    onChange={(value) => setExpiryDate(value)}
+                    variant="standard"
+                    renderInput={(params) => <Input fullWidth {...params} />}
+                  />
+                </Grid>
+              </LocalizationProvider>
+              
               <Grid item>
-                <MobileDatePicker
-                  label="Expiration date"
-                  inputFormat="DD/MM/YYYY"
-                  value={expiryDate}
-                  onChange={(value) => setExpiryDate(value)}
-                  variant="standard"
-                  renderInput={(params) => <Input fullWidth {...params} />}
-                />
+                <StyledButton        
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  endIcon={<RestaurantIcon />} 
+                  onClick={e=>handleDelete(e, false)}>
+                      This item is used
+                </StyledButton>
               </Grid>
-            </LocalizationProvider>
-            
-            <Grid item>
-              <StyledButton        
-                variant="outlined"
-                size="small"
-                fullWidth
-                endIcon={<RestaurantIcon />} 
-                onClick={e=>handleDelete(e, false)}>
-                    This item is used
-              </StyledButton>
+              
+              <Grid item>
+                <StyledButton        
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  endIcon={<DeleteIcon />} 
+                  onClick={e=>handleDelete(e, true)}>
+                      Add to waste
+                </StyledButton>
+              </Grid>
             </Grid>
-            
-            <Grid item>
-              <StyledButton        
-                variant="outlined"
-                size="small"
-                fullWidth
-                endIcon={<DeleteIcon />} 
-                onClick={e=>handleDelete(e, true)}>
-                    Add to waste
-              </StyledButton>
-            </Grid>
-
-          </Grid>
-            
-            
-
             <Actions>
               <Button onClick={handleClose}>Cancel</Button>
               <Button type="submit" disabled={!changed} onClick={() => setOpen(false)}>
@@ -140,7 +131,7 @@ const EditItemModal = ({ item, manageItem, deleteItem }) => {
           </form>
         </DialogContent>
       </Dialog></>}
-    </div>
+    </>
   );
 };
 

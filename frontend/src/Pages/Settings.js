@@ -2,6 +2,7 @@ import React from "react";
 import { Divider, Button, Typography, Stack } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Link } from "react-router-dom";
 import { styled } from "@mui/system";
 
@@ -11,7 +12,6 @@ const Settings = () => {
   const { user } = useUserContext();
 
   const settingItems = [
-    { text: "Back to My Household", route: "household"},
     { text: "General", route: "general" },
     { text: "Manage households", route: "managehouseholds" },
     { text: "Terms and conditions", route: "terms" },
@@ -21,16 +21,44 @@ const Settings = () => {
   return (
     <>
       <Email direction="row" alignItems="center" gap={0}>
-        <PersonIcon />
-        <Typography variant="body1">{user.email}</Typography>
+        <PersonIcon sx={{marginRight: 0.5}} />
+        <Typography variant="text"
+        sx={{
+            lineHeight: "20px",
+            fontSize: "16px",
+            fontWeight: 300,
+            letterSpacing: "1px",
+            }}
+        >{user.email}</Typography>
       </Email>
       <Divider />
 
       <Stack>
+        <SettingItem key={"Back to My Household"}>
+            <HouseholdButton startIcon={<ArrowBackIosIcon />} component={Link} to={`/household`}>
+            
+              <Typography variant="text"
+              sx={{
+                lineHeight: "36px",
+                fontSize: "20px",
+                fontWeight: 400,
+                letterSpacing: "1.25px",
+                }}
+              >Back to My Household</Typography>
+            </HouseholdButton>
+            <Divider />
+        </SettingItem>
         {settingItems.map((item) => (
           <SettingItem key={item.text}>
             <SettingButton component={Link} to={`/${item.route}`}>
-              <Typography variant="body1">{item.text}</Typography>
+              <Typography variant="text"
+              sx={{
+                lineHeight: "36px",
+                fontSize: "20px",
+                fontWeight: 400,
+                letterSpacing: "1.25px",
+                }}
+              >{item.text}</Typography>
               <ArrowForwardIosIcon />
             </SettingButton>
             <Divider />
@@ -54,5 +82,11 @@ const SettingItem = styled("div")({
 const SettingButton = styled(Button)({
   display: "grid",
   gridTemplateColumns: "1fr 24px",
+  color: "black",
+});
+
+const HouseholdButton = styled(Button)({
+  display: "grid",
+  gridTemplateColumns: "24px 1fr",
   color: "black",
 });
